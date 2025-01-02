@@ -668,6 +668,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+if (productHandle) {
+  const product = {{ all_products | json }}[productHandle];
+  if (product) {
+    // Populate product details in the popup
+    popupProductTitle.textContent = product.title;
+    popupProductPrice.textContent = product.price | money;
+    popupAddToCartForm.querySelector("input[name='id']").value = product.variants[0].id; // Use the first variant's ID
+  } else {
+    // If product is not found, show a message
+    popupProductTitle.textContent = "Product not available";
+    popupProductPrice.textContent = "";
+    popupAddToCartForm.querySelector("input[name='id']").value = "";
+  }
+} else {
+  // Clear product details if no product handle is found
+  popupProductTitle.textContent = "";
+  popupProductPrice.textContent = "";
+  popupAddToCartForm.querySelector("input[name='id']").value = "";
+}
+
 if (productHandle) {
   // Access the product from Shopify's `all_products` object
   const product = {{ all_products | json }}[productHandle];
