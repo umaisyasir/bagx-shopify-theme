@@ -34,7 +34,7 @@
     <div class="swiper-button-prev fas fa-chevron-left"></div>
   </div>
 </div>
-
+{% for reel in section.blocks %}
 <div id="reelPopup" class="reel-popup">
   <div class="popup-content">
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
@@ -65,6 +65,7 @@
     </div>
   </div>
 </div>
+{% endfor %}
 
 <style>
 .product-info {
