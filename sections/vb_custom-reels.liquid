@@ -544,9 +544,6 @@ function openPopup(videoElement) {
   const popup = document.getElementById("reelPopup");
   const popupVideo = document.getElementById("popupVideo");
   const popupLogo = document.getElementById("popupLogo");
-  const popupProductTitle = document.querySelector(".popup-product-title");
-  const popupProductPrice = document.querySelector(".popup-product-price");
-  const popupAddToCartForm = document.querySelector(".popup-add-to-cart-form");
   popupVideo.src = videoElement.src;
   popupLogo.src = "{{ section.settings.logo_url }}";
   popup.classList.add("active");
