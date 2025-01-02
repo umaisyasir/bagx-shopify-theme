@@ -42,16 +42,18 @@
     <video id="popupVideo" autoplay muted loop></video>
     {% for reel in section.blocks %}
     {% assign product = all_products[reel.settings.product_handle] %}
-      {% if product %}
-        <h3 class="popup-product-title">{{ product.title }}</h3>
-        <p class="popup-product-price">{{ product.price | money }}</p>
-        <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-          <button type="submit" class="popup-add-to-cart">Add to Cart</button>
-        </form>
-      {% else %}
-        <h3 class="popup-product-title">Product not available</h3>
-      {% endif %}
+      <div class="popup-product-details">
+        {% if product %}
+          <h3 class="popup-product-title">{{ product.title }}</h3>
+          <p class="popup-product-price">{{ product.price | money }}</p>
+          <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+          </form>
+        {% else %}
+          <h3 class="popup-product-title">Product not available</h3>
+        {% endif %}
+      </div>
     {% endfor %}
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
