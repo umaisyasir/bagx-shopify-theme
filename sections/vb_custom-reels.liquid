@@ -657,7 +657,7 @@ document.addEventListener("DOMContentLoaded", function () {
   blocks.forEach(function(block) {
     // Get the product handle from the data attribute
     const productHandle = block.getAttribute("data-product-handle");
-    const productHandle = videoElement.closest(".swiper-slide").getAttribute("data-product-handle");
+
     // If no product handle is set, hide the product info section
     if (!productHandle) {
       // Find the product-info section and hide it
