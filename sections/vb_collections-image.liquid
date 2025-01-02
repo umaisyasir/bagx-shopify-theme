@@ -1,0 +1,166 @@
+<style>
+.bag-collection-section {
+  padding: 40px 0;
+  background-color: #f5f5f5;
+}
+
+.bag-collection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.bag-collection-item {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.bag-collection-item:hover {
+  transform: scale(1.05);
+}
+
+.bag-collection-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.bag-collection-item h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .bag-collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .bag-collection-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+</style>
+
+<section class="bag-collection-section">
+  <div class="container">
+    <div class="bag-collection-grid">
+      {% for block in section.blocks %}
+        <div class="bag-collection-item">
+          <a href="{{ block.settings.link }}" 
+             {% if block.settings.open_in_new_tab %} target="_blank" {% else %} target="_self" {% endif %}>
+            <img src="{{ block.settings.image | img_url: 'large' }}" alt="{{ block.settings.image_alt }}">
+            <h3>{{ block.settings.title }}</h3>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var gridContainer = document.querySelector('.bag-collection-grid');
+  var itemsPerRow = "{{ section.settings.items_per_row }}";
+  var itemsPerRowMobile = "{{ section.settings.items_per_row_mobile }}";
+
+  function setGridColumns() {
+    if (window.innerWidth <= 480) {
+      gridContainer.style.gridTemplateColumns = `repeat(${itemsPerRowMobile}, 1fr)`;
+    } else {
+      gridContainer.style.gridTemplateColumns = `repeat(${itemsPerRow}, 1fr)`;
+    }
+  }
+
+  setGridColumns();
+
+  window.addEventListener('resize', function() {
+    setGridColumns();
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "VB - Collections Images",
+  "settings": [
+    {
+      "type": "select",
+      "id": "items_per_row",
+      "label": "Items per row (desktop)",
+      "options": [
+        {
+          "value": "4",
+          "label": "4 items"
+        },
+        {
+          "value": "2",
+          "label": "2 items"
+        },
+        {
+          "value": "1",
+          "label": "1 item"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "items_per_row_mobile",
+      "label": "Items per row (mobile)",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 items"
+        },
+        {
+          "value": "1",
+          "label": "1 item"
+        }
+      ],
+      "default": "2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bag_item",
+      "name": "Bag Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in new tab"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VB - Collections Images"
+    }
+  ]
+}
+{% endschema %}

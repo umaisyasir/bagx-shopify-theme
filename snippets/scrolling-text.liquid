@@ -1,0 +1,45 @@
+{% style %}
+  .scrolling-text--{{ section.id }} {
+    --move-speed: {{ section.settings.speed }}s;
+  }
+
+  .scrolling-text--{{ section.id }} span {
+    font-size: {{ section.settings.text_size }}px;
+  }
+
+  {% if section.settings.color_scheme == 'button' %}
+    .scrolling-text--{{ section.id }} {
+      background: {{ settings.color_button }};
+      color: {{ settings.color_button_text }};
+    }
+  {% endif %}
+  .top-bar-consulting {
+    text-align: center;
+    color: white;
+    background-color: {{ section.settings.bg_color12 }};
+    padding: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: {{ section.settings.top-bar-font-weight }}
+}
+{% endstyle %}
+
+<div class="top-bar-consulting">
+  <span class="top-bar-vb">
+    {{ section.settings.top-bar-text }}
+  </span>
+</div>
+
+{% if section.settings.link != blank %}
+  <a href="{{ section.settings.link }}">
+{% endif %}
+<div class="scrolling-text scrolling-text--{{ section.id }}">
+  <div class="scrolling-text__inner scrolling-text__inner--{{ section.settings.direction }}" aria-hidden="true" tabindex="0" style="gap: {% if section.settings.text_spacing %}40px{% else %}10px{% endif %};">
+    {% for i in (1..35) %}
+      <span>{{ section.settings.text }}</span>
+    {% endfor %}
+  </div>
+</div>
+{% if section.settings.link != blank %}
+  </a>
+{% endif %}

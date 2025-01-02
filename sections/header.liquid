@@ -1,0 +1,1047 @@
+{%- liquid
+  assign main_menu = linklists[section.settings.main_menu_link_list]
+  assign toolbar_menu = linklists[section.settings.toolbar_menu]
+
+  assign logo_alignment = 'left'
+  if section.settings.main_menu_alignment == 'center-left' or section.settings.main_menu_alignment == 'center-split' or section.settings.main_menu_alignment == 'center' or section.settings.main_menu_alignment == 'center-drawer'
+    assign logo_alignment = 'center'
+  endif
+
+  assign dropdown_alignment = 'left'
+  if section.settings.main_menu_alignment == 'left-center' or section.settings.main_menu_alignment == 'center-split' or section.settings.main_menu_alignment == 'center'
+    assign dropdown_alignment = 'center'
+  endif
+
+  assign template_name = template | replace: '.', ' ' | truncatewords: 2, '' | handle
+
+  assign sticky_header = false
+  if section.settings.header_style == 'sticky'
+    assign sticky_header = true
+  endif
+  assign overlay_header = false
+  if template_name == 'index' and section.settings.sticky_index
+    assign overlay_header = true
+  endif
+  if template_name contains 'collection' and collection.image and section.settings.sticky_collection
+    assign overlay_header = true
+  endif
+-%}
+
+{%- render 'drawer-menu',
+  section: section,
+  main_menu: main_menu,
+  toolbar_menu: toolbar_menu,
+  logo_alignment: logo_alignment
+-%}
+{%- render 'cart-drawer' -%}
+
+<style>
+  .site-nav__link,
+  .site-nav__dropdown-link:not(.site-nav__dropdown-link--top-level) {
+    font-size: {{ settings.type_navigation_size }}px;
+  }
+  {% if settings.type_navigation_capitalize %}
+    .site-nav__link, .mobile-nav__link--top-level {
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+    .mobile-nav__link--top-level {
+      font-size: 1.1em;
+    }
+  {% endif %}
+
+  {% if mainmenu.length > 6 %}
+    .site-nav__link {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  {% endif %}
+
+  {% unless section.settings.mega_menu_images %}
+    .megamenu__collection-image {
+      display: none;
+    }
+  {% endunless %}
+
+  {%- if settings.color_header == settings.color_body_bg or settings.color_body_bg contains settings.color_header -%}
+    .site-header {
+      box-shadow: 0 0 1px rgba(0,0,0,0.2);
+    }
+
+    .toolbar + .header-sticky-wrapper .site-header {
+      border-top: 0;
+    }
+  {%- endif -%}
+</style>
+
+<div data-section-id="{{ section.id }}" data-section-type="header">
+
+  {%- unless overlay_header -%}
+    {%- if section.settings.show_locale_selector or section.settings.show_currency_selector or section.settings.toolbar_social or section.settings.toolbar_menu != blank -%}
+      {%- render 'toolbar',
+        section: section,
+        toolbar_menu: toolbar_menu,
+        overlay_header: overlay_header
+      -%}
+    {%- endif -%}
+  {%- endunless -%}
+
+  <div class="header-sticky-wrapper">
+    <div id="HeaderWrapper" class="header-wrapper{% if overlay_header %} header-wrapper--sticky is-light{% endif %}">
+
+      {%- if overlay_header -%}
+        {%- if section.settings.show_locale_selector or section.settings.show_currency_selector or section.settings.toolbar_social or section.settings.toolbar_menu != blank -%}
+          {%- render 'toolbar',
+            section: section,
+            toolbar_menu: toolbar_menu,
+            overlay_header: overlay_header
+          -%}
+        {%- endif -%}
+      {%- endif -%}
+      <header
+        id="SiteHeader"
+        class="site-header{% if settings.type_navigation_style == 'heading' %} site-header--heading-style{% endif %}"
+        data-sticky="{{ sticky_header }}"
+        data-overlay="{{ overlay_header }}">
+        <div class="page-width">
+          <div
+            class="header-layout header-layout--{{ section.settings.main_menu_alignment }}"
+            data-logo-align="{{ logo_alignment }}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MPGGHR8');</script>
+<!-- End Google Tag Manager -->
+            {%- if logo_alignment == 'left' -%}
+              <div class="header-item header-item--logo">
+                {%- render 'header-logo-block', section: section -%}
+              </div>
+            {%- endif -%}
+{% comment %}
+            {%- if logo_alignment == 'left' and section.settings.main_menu_alignment != 'left-drawer' -%}
+              <div class="header-item header-item--navigation{% if section.settings.main_menu_alignment == 'left-center' %} text-center{% endif %}">
+                {%- render 'header-desktop-nav', main_menu: main_menu, dropdown_alignment: dropdown_alignment -%}
+              </div>
+            {%- endif -%}
+{% endcomment %}
+            <style>
+              .hover-underline-animation {
+                display: inline-block;
+                position: relative;
+              }
+              
+              .hover-underline-animation::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                transform: scaleX(0);
+                height: 2px;
+                bottom: 0;
+                left: -15px;
+                background-color: #000 !important;
+                transition: transform 0.25s ease-out;
+                border-bottom: #000 !important;
+              }
+              
+              .hover-underline-animation:hover::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+              }
+
+              .hover-underline-animation.center::after {
+                transform-origin: bottom center;
+              }
+              
+              .hover-underline-animation.center:hover::after {
+                transform-origin: bottom center;
+              }
+              .desktop-menu li:first-child {
+                display: none;
+              }
+              .megamenu-1,
+              .megamenu-2,
+              .megamenu-3,
+              .megamenu-4 {
+                  width: 25%;
+              }
+              ul.mega_menu_1.dropdown {
+                  visibility: hidden; /* Hide the dropdown by default */
+                  opacity: 0;
+                  column-gap: 15px;
+                  left: 50%;
+                  top: 45.5px;
+                  transform: translateX(-50%) translateY(10px);
+                  transition: 0.2s;
+                  display: flex;
+        	      width: 80vw;
+              }
+              .megamenu_image img {
+                  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+                  border-radius: 10px;
+                }
+                
+                .megamenu_image img:hover {
+                  transform: scale(1.05);
+                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                  filter: brightness(1.1) contrast(1.2);
+                }
+              nav.desktop-menu {
+                  display: flex;
+                  align-items: center;
+                  width: fit-content;
+                  flex-wrap: wrap;
+                  justify-content: center;
+                  position: relative;
+              }
+              nav.desktop-menu li {
+                  list-style: none;
+              }
+              nav.desktop-menu a {
+                  text-transform: uppercase;
+              }
+              @media screen and (max-width: 768px) {
+                nav.desktop-menu {
+                  display: none !important;
+                }
+              }
+              nav.desktop-menu {
+                  display: flex;
+                  justify-content: center;
+                  column-gap: 20px;
+                  width: 100%;
+                  padding-top: 15px;
+              }
+              
+              nav.desktop-menu li {
+                  list-style: none;
+              }
+              
+              nav.desktop-menu li a {
+                  color: #000 !important;
+                  text-decoration: none;
+                  text-transform: uppercase;
+                  letter-spacing: 0;
+                  transition: 0.3s;
+                  padding-bottom: 10px;
+                  padding-top: 10px;
+              }
+              nav.desktop-menu li .dropdown a {
+               padding: 4px 0px; 
+              }
+              .desktop-menu {
+                  list-style-type: none;
+                  padding: 0;
+              }
+              
+              .desktop-menu > li {
+                  display: inline-block;
+                  padding: 0px 5px;
+                  margin: 0;
+              }
+              
+              ul.dropdown a {
+                  text-decoration: none;
+                  display: block;
+              }
+              
+              .dropdown {
+                  visibility: hidden; /* Hide the dropdown by default */
+                  opacity: 0;
+                  position: absolute;
+                  top: 100%; /* Position it below the parent li */
+                  background-color: white;
+                  border: 1px solid #ccc;
+                  border-radius: 15px;
+                  list-style-type: none;
+                  margin: 0;
+                  width: max-content;
+                  padding: 10px 15px;
+                  top: 64px;
+                  transform: translateY(10px);
+                  transition: 0.2s;
+                  box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.3);
+                  z-index: 99;
+              }
+              .dropdown a:not(.megamenu_image a):hover {
+                background-color: #f52a66; /* Set the hover background color */
+                color: white !important; /* Change text color to white */
+                text-decoration: none; /* Remove underline on hover */
+                padding: 10px 20px; /* Add some padding for better visual effect */
+                border-radius: 5px; /* Add rounded corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a high-end feel */
+                transform: scale(1.05); /* Slightly enlarge the element for emphasis */
+                transition: all 0.3s ease; /* Smooth transition for all properties */
+              }
+              
+              h1.heading_linkmega 
+                  font-size: 17px;
+              }
+              .dropdown li {
+                  width: 150px; /* Set a width for the dropdown items */
+              }
+              
+              .desktop-menu li:hover .dropdown {
+                  visibility: visible; 
+                  opacity: 1;
+                  transform: translateY(0);
+                  transition: 0.2s;
+              }
+              .desktop-menu li:hover ul.mega_menu_1.dropdown {
+                display: flex !important;
+                width: 100vw;
+                visibility: visible; 
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+                transition: 0.2s;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 20px 55px;
+                overflow: hidden !important;
+                width: 97vw !important;
+              }
+               ul.dropdown h1.heading_linkmega {
+                 font-size: 17px;
+                 margin-bottom: 8px;
+                 color: #000 !important;
+              }
+           #search-suggestions {
+              position: absolute;
+              top: 100%; 
+              left: 0;
+              width: 100%;
+              background-color: white;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              z-index: 9999;
+              display: block;
+              overflow-y: auto;
+          }            
+            #search-suggestions ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            #search-suggestions li {
+                padding: 10px 15px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            #search-suggestions li:last-child {
+                border-bottom: none;
+            }
+            
+            #search-suggestions a {
+                text-decoration: none;
+                color: #333;
+                display: block;
+                font-size: 14px;
+                transition: 0.3s;
+            }
+            
+            #search-suggestions a:hover {
+                background-color: #f7f7f7;
+                color: #000;
+                border-left: 4px solid #be2253;
+                padding-left: 11px;
+                transition: 0.3s;
+            }
+            
+            .site-header__search-input {
+                width: 100%;
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 16px;
+                position: relative; /* So that the suggestions position correctly */
+            }
+            </style>
+            {%- if logo_alignment == 'center' -%}
+              <div class="header-item header-item--left header-item--navigation">
+                {%- if section.settings.main_menu_alignment == 'center' or section.settings.main_menu_alignment == 'center-split' -%}
+                  {%- if settings.search_enable -%}
+                    <div class="site-nav small--hide">
+                      <a href="{{ routes.search_url }}" class="site-nav__link site-nav__link--icon js-search-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 80 80" xml:space="preserve">
+                              <path fill="#000" d="M56.118 36.313c0-10.748-8.888-19.462-19.853-19.462-10.965 0-19.853 8.714-19.853 19.462 0 10.75 8.888 19.462 19.853 19.462 10.965 0 19.853-8.713 19.853-19.462zm-28.259-.759c-2.765 0-5.008-2.199-5.008-4.91 0-2.711 2.242-4.909 5.008-4.909 2.765 0 5.008 2.198 5.008 4.909 0 2.71-2.243 4.91-5.008 4.91zm36.366 25.248c-.477-1.052-12.162-12.157-12.162-12.157L49.798 51.1s11.565 10.988 12.043 11.572c.477.584 2.861-.818 2.384-1.87z"/>
+                              <path fill="#000" d="m64.416 59.511-11.35-11.127c2.888-3.749 4.602-8.414 4.603-13.473-.002-12.362-10.224-22.385-22.835-22.385-12.61 0-22.832 10.023-22.833 22.385.002 12.362 10.224 22.383 22.833 22.385 5.516-.001 10.575-1.919 14.522-5.111l11.267 11.047c.52.51 1.211.769 1.895.768h.006c.681 0 1.37-.259 1.89-.768a2.613 2.613 0 0 0 .787-1.861c0-.668-.263-1.348-.785-1.86zM14.147 34.91c.02-11.199 9.262-20.261 20.686-20.281 11.426.021 20.667 9.082 20.688 20.281-.021 11.2-9.262 20.26-20.687 20.28-11.425-.02-20.667-9.08-20.687-20.28zm48.747 26.837a.536.536 0 0 1-.377.149.526.526 0 0 1-.377-.154L50.945 50.769c.254-.247.501-.502.743-.761L62.899 61a.522.522 0 0 1-.005.747z"/>
+                            </svg>
+
+
+                        <span class="icon__fallback-text">{{ 'general.search.title' | t }}</span>
+                      </a>
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+
+                {%- if section.settings.main_menu_alignment == 'center-left' -%}
+                  {%- render 'header-desktop-nav', main_menu: main_menu, dropdown_alignment: dropdown_alignment -%}
+                {%- endif -%}
+
+                <div class="site-nav{% unless section.settings.main_menu_alignment == 'center-drawer' %} medium-up--hide{% endunless %}">
+                  <button
+                    type="button"
+                    class="site-nav__link site-nav__link--icon js-drawer-open-nav"
+                    aria-controls="NavDrawer">
+                    <i class="fa-solid fa-bars"></i>
+                    <span class="icon__fallback-text">{{ 'general.drawers.navigation' | t }}</span>
+                  </button>
+                </div>
+              </div>
+
+              {%- if section.settings.main_menu_alignment == 'center-split' -%}
+                {%- render 'header-split-nav', main_menu: main_menu, section: section, dropdown_alignment: dropdown_alignment -%}
+              {%- endif -%}
+
+              {%- if section.settings.main_menu_alignment != 'center-split' -%}
+                <div class="header-item header-item--logo">
+                  {%- render 'header-logo-block', section: section -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+
+            <div class="header-item header-item--icons">
+              {%- render 'header-icons', section: section -%}
+            </div>
+          </div>
+
+         {% comment %} {%- if section.settings.main_menu_alignment == 'center' -%}
+            <div class="text-center">
+              {%- render 'header-desktop-nav', main_menu: main_menu, dropdown_alignment: dropdown_alignment -%}
+            </div>
+          {%- endif -%}
+                      {% endcomment %}
+        </div>
+        <div class="site-header__search-container">
+          <div class="site-header__search">
+            <div class="page-width">
+              <form action="{{ routes.search_url }}" method="get" role="search"
+                id="HeaderSearchForm"
+                class="site-header__search-form">
+                <input type="hidden" name="type" value="{{ settings.search_type }}">
+                <input type="hidden" name="options[prefix]" value="last">
+                <label for="search-icon" class="hidden-label">{{ 'general.search.submit' | t }}</label>
+                <label for="SearchClose" class="hidden-label">{{ 'general.accessibility.close_modal' | t | json }}</label>
+                <button type="submit" id="search-icon" class="text-link site-header__search-btn site-header__search-btn--submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 80 80" xml:space="preserve">
+                    <path fill="#000" d="M56.118 36.313c0-10.748-8.888-19.462-19.853-19.462-10.965 0-19.853 8.714-19.853 19.462 0 10.75 8.888 19.462 19.853 19.462 10.965 0 19.853-8.713 19.853-19.462zm-28.259-.759c-2.765 0-5.008-2.199-5.008-4.91 0-2.711 2.242-4.909 5.008-4.909 2.765 0 5.008 2.198 5.008 4.909 0 2.71-2.243 4.91-5.008 4.91zm36.366 25.248c-.477-1.052-12.162-12.157-12.162-12.157L49.798 51.1s11.565 10.988 12.043 11.572c.477.584 2.861-.818 2.384-1.87z"/>
+                    <path fill="#000" d="m64.416 59.511-11.35-11.127c2.888-3.749 4.602-8.414 4.603-13.473-.002-12.362-10.224-22.385-22.835-22.385-12.61 0-22.832 10.023-22.833 22.385.002 12.362 10.224 22.383 22.833 22.385 5.516-.001 10.575-1.919 14.522-5.111l11.267 11.047c.52.51 1.211.769 1.895.768h.006c.681 0 1.37-.259 1.89-.768a2.613 2.613 0 0 0 .787-1.861c0-.668-.263-1.348-.785-1.86zM14.147 34.91c.02-11.199 9.262-20.261 20.686-20.281 11.426.021 20.667 9.082 20.688 20.281-.021 11.2-9.262 20.26-20.687 20.28-11.425-.02-20.667-9.08-20.687-20.28zm48.747 26.837a.536.536 0 0 1-.377.149.526.526 0 0 1-.377-.154L50.945 50.769c.254-.247.501-.502.743-.761L62.899 61a.522.522 0 0 1-.005.747z"/>
+                  </svg>
+
+
+                  <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+                </button>
+                <input type="search" name="q" value="{{ search.terms | escape | replace: '*', '' }}" placeholder="{{ 'general.search.placeholder' | t }}" class="site-header__search-input" aria-label="{{ 'general.search.placeholder' | t }}">
+              </form>
+              <button type="button" id="SearchClose" class="js-search-header-close text-link site-header__search-btn">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 64 64"><path d="M19 17.61l27.12 27.13m0-27.12L19 44.74"/></svg>
+                <span class="icon__fallback-text">{{ 'general.accessibility.close_modal' | t | json }}</span>
+              </button>
+            </div>
+              <div id="search-suggestions">
+                  <ul>
+                      <li><a href="/collections/bags">Women bags for College / University</a></li>
+                      <li><a href="/collections/laptop-bags">Best office work bags for men/women</a></li>
+                      <li><a href="/collections/duffel-bags">Best travel bags in Pakistan</a></li>
+                      <li><a href="/collections/tote-bag-1">Affordable designer tote bags</a></li>
+                      <li><a href="/collections/cross-body">Crossbody bags for women</a></li>
+                      <li><a href="/collections/duffel-bags">Gym duffle bag for men/women</a></li>
+                      <li><a href="/collections/shoulder-bags">Designer bags Pakistan</a></li>
+                  </ul>
+              </div>
+          </div>
+          {%- if settings.predictive_search_enabled -%}
+            <div id="PredictiveWrapper" class="predictive-results hide" data-image-size="{{ settings.predictive_image_size }}">
+              <div class="page-width">
+                <div id="PredictiveResults" class="predictive-result__layout"></div>
+                <div class="text-center predictive-results__footer">
+                  <button type="button" class="btn btn--small" data-predictive-search-button>
+                    <small>
+                      {{ 'general.search.view_more' | t }}
+                    </small>
+                  </button>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+                  <nav class="desktop-menu">
+                {% for block in section.blocks %}
+                  <li class="nav_li" id="mega-menu-{{ forloop.index }} mega_{{ block.settings.menu_id }}">
+                    <a class="site-nav__link site-nav__link--underline hover-underline-animation center" href="{{ block.settings.nav_url }}">{{ block.settings.title }}</a>
+                    {% if block.settings.show_dropdown %}
+                      <ul class="dropdown">
+                          {% if block.settings.heading_links %}
+                          <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links }}</strong></h1>
+                        {% endif %}
+                          {% for link in linklists[block.settings.nav_link_list].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </ul>
+                    {% endif %}
+                    {% if block.settings.show_mega_menu %}
+                      <ul class="mega_menu_1 dropdown">
+                      <div class="megamenu-1">
+                        {% if block.settings.heading_links1 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links1 }}</strong></h1>
+                        {% endif %}
+                          {% for link in linklists[block.settings.mega_links1].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                        <div class="megamenu-2">
+                        {% if block.settings.heading_links2 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links2 }}</strong></h1>
+                        {% endif %}
+                        {% for link in linklists[block.settings.mega_links2].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class="megamenu-3">
+                        {% if block.settings.heading_links3 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links3 }}</strong></h1>
+                        {% endif %}
+                        {% for link in linklists[block.settings.mega_links3].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                        <div class="megamenu-4">
+                        {% if block.settings.img_megamnu %}
+                          <div class="megamenu_image">
+                            <a href="{{ block.settings.img_megamnuurl }}"><img src="{{ block.settings.img_megamnu | img_url: 'master' }}"></a>
+                          </div>
+                        {% endif %}
+                      </div>
+                      </ul>
+                    {% endif %}
+                    {% if block.settings.show_mega_menu2 %}
+                      <ul class="mega_menu_1 dropdown">
+                      <div class="megamenu-1">
+                        {% if block.settings.heading_links1 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links1 }}</strong></h1>
+                        {% endif %}
+                          {% for link in linklists[block.settings.mega_links1].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                        <div class="megamenu-2">
+                        {% if block.settings.img_megamnu %}
+                          <div class="megamenu_image">
+                            <a href="{{ block.settings.img_megamnuurl }}"><img src="{{ block.settings.img_megamnu | img_url: 'master' }}"></a>
+                          </div>
+                        {% endif %}
+                        </div>
+                        <div class="megamenu-3">
+                        {% if block.settings.heading_links3 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links3 }}</strong></h1>
+                        {% endif %}
+                        {% for link in linklists[block.settings.mega_links3].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                        <div class="megamenu-4">
+                        {% if block.settings.img_megamnu1 %}
+                          <div class="megamenu_image">
+                            <a href="{{ block.settings.img_megamnuurl1 }}"><img src="{{ block.settings.img_megamnu1 | img_url: 'master' }}"></a>
+                          </div>
+                        {% endif %}
+                      </div>
+                      </ul>
+                    {% endif %}
+                    {% if block.settings.show_mega_menu3 %}
+                      <ul class="mega_menu_1 dropdown"  style="width: max-content; left: unset; transform: none;">
+                      <div class="megamenu-1"  style="width: 50%;">
+                        {% if block.settings.heading_links1 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links1 }}</strong></h1>
+                        {% endif %}
+                          {% for link in linklists[block.settings.mega_links1].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                        <div class="megamenu-3" style="width: 50%;">
+                        {% if block.settings.heading_links3 %}
+                        <h1 class="heading_linkmega"><strong>{{ block.settings.heading_links3 }}</strong></h1>
+                        {% endif %}
+                        {% for link in linklists[block.settings.mega_links3].links %}
+                              <a href="{{ link.url }}">{{ link.title }}</a>
+                            {% endfor %}
+                      </div>
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+            </nav>
+      </header>
+    </div>
+  </div>
+</div>
+                  
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var searchInput = document.querySelector('.site-header__search-input');
+    var suggestions = document.getElementById('search-suggestions');
+
+    // Check if the search input exists
+    if (searchInput && suggestions) {
+        searchInput.addEventListener('input', function() {
+            var query = searchInput.value.trim();  // Get the search query
+
+            if (query.length > 0) {
+                // Hide suggestions if input is not empty
+                suggestions.style.display = 'none';
+            } else {
+                // Show suggestions if input is empty
+                suggestions.style.display = 'block';
+            }
+        });
+    }
+});
+fetch(`/search/suggest?q=${query}&resources[type]=product,collection`)
+    .then(response => response.json())
+    .then(data => {
+        let suggestionsDiv = document.getElementById('search-results');
+        suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+        data.resources.results.products.forEach(product => {
+            suggestionsDiv.insertAdjacentHTML('beforeend', `<a href="${product.url}">${product.title}</a>`);
+        });
+    });
+</script>
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main_menu_link_list",
+      "label": "t:sections.header.settings.main_menu_link_list.label",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "mega_menu_images",
+      "label": "t:sections.header.settings.mega_menu_images.label",
+      "default": true,
+      "info": "t:sections.header.settings.mega_menu_images.info"
+    },
+    {
+      "type": "select",
+      "id": "main_menu_alignment",
+      "label": "t:sections.header.settings.main_menu_alignment.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.header.settings.main_menu_alignment.options.left.label"
+        },
+        {
+          "value": "left-center",
+          "label": "t:sections.header.settings.main_menu_alignment.options.left-center.label"
+        },
+        {
+          "value": "left-drawer",
+          "label": "t:sections.header.settings.main_menu_alignment.options.left-drawer.label"
+        },
+        {
+          "value": "center-left",
+          "label": "t:sections.header.settings.main_menu_alignment.options.center-left.label"
+        },
+        {
+          "value": "center-split",
+          "label": "t:sections.header.settings.main_menu_alignment.options.center-split.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.header.settings.main_menu_alignment.options.center.label"
+        },
+        {
+          "value": "center-drawer",
+          "label": "t:sections.header.settings.main_menu_alignment.options.center-drawer.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_style",
+      "label": "t:sections.header.settings.header_style.label",
+      "default": "normal",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:sections.header.settings.header_style.options.normal.label"
+        },
+        {
+          "value": "sticky",
+          "label": "t:sections.header.settings.header_style.options.sticky.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_index",
+      "label": "t:sections.header.settings.sticky_index.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_collection",
+      "label": "t:sections.header.settings.sticky_collection.label",
+      "info": "t:sections.header.settings.sticky_collection.info",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header_toolbar"
+    },
+    {
+      "type": "link_list",
+      "id": "toolbar_menu",
+      "label": "t:sections.header.settings.toolbar_menu.label",
+      "info": "t:sections.header.settings.toolbar_menu.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "toolbar_social",
+      "label": "t:sections.header.settings.toolbar_social.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header_language_selector",
+      "info": "t:sections.header.settings.header_language_selector"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "t:sections.header.settings.show_locale_selector.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header_currency_selector",
+      "info": "t:sections.header.settings.header_currency_selector"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "t:sections.header.settings.show_currency_selector.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_flags",
+      "label": "t:sections.header.settings.show_currency_flags.label",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:sections.header.blocks.logo.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "t:sections.header.blocks.logo.settings.logo.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo-inverted",
+          "label": "t:sections.header.blocks.logo.settings.logo-inverted.label",
+          "info": "t:sections.header.blocks.logo.settings.logo-inverted.info"
+        },
+        {
+          "type": "range",
+          "id": "desktop_logo_width",
+          "label": "t:sections.header.blocks.logo.settings.desktop_logo_width.label",
+          "default": 200,
+          "min": 100,
+          "max": 400,
+          "step": 10,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "mobile_logo_width",
+          "label": "t:sections.header.blocks.logo.settings.mobile_logo_width.label",
+          "default": 140,
+          "min": 60,
+          "max": 200,
+          "step": 10,
+          "unit": "px",
+          "info": "t:sections.header.blocks.logo.settings.mobile_logo_width.info"
+        }
+      ]
+    },
+    {
+      "type": "announcement",
+      "name": "t:sections.header.blocks.announcement.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.header.blocks.announcement.settings.text.label",
+          "default": "Hassle-free returns"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "t:sections.header.blocks.announcement.settings.link_text.label",
+          "default": "30-day postage paid returns"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.header.blocks.announcement.settings.link.label"
+        }
+      ]
+    },
+    {
+      "type": "rich_text",
+      "name": "Base item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nav Link Text"
+        },
+        {
+          "type": "url",
+          "id": "nav_url",
+          "label": "Nav URL"
+        },
+        {
+          "type": "text",
+          "id": "menu_id",
+          "label": "ID"
+        }
+      ]
+    },
+    {
+      "type": "link_list",
+      "name": "Dropdown item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nav Link Text"
+        },
+        {
+          "type": "url",
+          "id": "nav_url",
+          "label": "Nav URL"
+        },
+        {
+          "type": "text",
+          "id": "menu_id",
+          "label": "ID"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dropdown",
+          "label": "Show Dropdown",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "heading_links",
+          "label": "Heading"
+        },
+        {
+            "type": "link_list",
+            "id": "nav_link_list",
+            "label": "Select Navigation Link List"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Mega Menu 1",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nav Link Text"
+        },
+        {
+          "type": "url",
+          "id": "nav_url",
+          "label": "Nav URL"
+        },
+        {
+          "type": "text",
+          "id": "menu_id",
+          "label": "ID"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mega_menu",
+          "label": "Show Mega Menu",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "heading_links1",
+          "label": "Heading 1"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links1",
+            "label": "Select Navigation Link List"
+        },
+        {
+          "type": "text",
+          "id": "heading_links2",
+          "label": "Heading 2"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links2",
+            "label": "Select Navigation Link List"
+        },
+        {
+          "type": "text",
+          "id": "heading_links3",
+          "label": "Heading 3"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links3",
+            "label": "Select Navigation Link List"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_megamnu",
+            "label": "Select Image"
+        },
+        {
+            "type": "url",
+            "id": "img_megamnuurl",
+            "label": "Select Image URL"
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Mega Menu 2",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nav Link Text"
+        },
+        {
+          "type": "url",
+          "id": "nav_url",
+          "label": "Nav URL"
+        },
+        {
+          "type": "text",
+          "id": "menu_id",
+          "label": "ID"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mega_menu2",
+          "label": "Show Mega Menu",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "heading_links1",
+          "label": "Heading 1"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links1",
+            "label": "Select Navigation Link List"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_megamnu",
+            "label": "Select Image"
+        },
+        {
+            "type": "url",
+            "id": "img_megamnuurl",
+            "label": "Select Image URL"
+        },
+        {
+          "type": "text",
+          "id": "heading_links3",
+          "label": "Heading 3"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links3",
+            "label": "Select Navigation Link List"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_megamnu1",
+            "label": "Select Image"
+        },
+        {
+            "type": "url",
+            "id": "img_megamnuurl1",
+            "label": "Select Image URL"
+        }
+      ]
+    },
+    {
+      "type": "url_dropdown",
+      "name": "Mega Menu 3",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nav Link Text"
+        },
+        {
+          "type": "url",
+          "id": "nav_url",
+          "label": "Nav URL"
+        },
+        {
+          "type": "text",
+          "id": "menu_id",
+          "label": "ID"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_mega_menu3",
+          "label": "Show Mega Menu",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "heading_links1",
+          "label": "Heading 1"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links1",
+            "label": "Select Navigation Link List"
+        },
+        {
+          "type": "text",
+          "id": "heading_links3",
+          "label": "Heading 3"
+        },
+        {
+            "type": "link_list",
+            "id": "mega_links3",
+            "label": "Select Navigation Link List"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {}
+  },
+  "disabled_on": {
+    "groups": ["footer", "custom.popups"]
+  }
+}
+{% endschema %}

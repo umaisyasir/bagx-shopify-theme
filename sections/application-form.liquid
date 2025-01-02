@@ -1,0 +1,263 @@
+<div class="job-listing-section">
+  <!-- Section Heading -->
+  <div class="section-heading" id="job-section-heading">
+    <h1>{{ section.settings.job_section_heading }}</h1>
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <!-- Job Listings -->
+    <div class="job-listings">
+      {% for block in section.blocks %}
+        <div class="job-listing">
+          <!-- Job Info on the left -->
+          <div class="job-info">
+            <h2 class="job-title">{{ block.settings.job_title }}</h2>
+            <div class="job-meta">
+              <span class="job-address">{{ block.settings.job_address }}</span>,
+              <span class="job-city">{{ block.settings.job_city }}</span>
+            </div>
+          </div>
+          <!-- Apply Button on the right -->
+          <div class="job-action">
+            <button class="btn apply-btn" data-job-title="{{ block.settings.job_title }}" data-job-link="{{ block.settings.apply_link }}" data-open-new-tab="{{ block.settings.open_new_tab }}">Apply</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <!-- No Jobs Available Message -->
+    <div class="no-jobs-message animated fadeInUp">
+      <span class="no-jobs-text">We currently have no job openings</span>
+      <button class="close-no-jobs" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Job Listings",
+  "settings": [
+    {
+      "type": "text",
+      "id": "job_section_heading",
+      "label": "Job Section Heading",
+      "default": "Apply for a Job"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "job",
+      "name": "Job Position",
+      "settings": [
+        {
+          "type": "text",
+          "id": "job_title",
+          "label": "Job Title",
+          "default": "Web Developer"
+        },
+        {
+          "type": "text",
+          "id": "job_address",
+          "label": "Address",
+          "default": "123 Office St."
+        },
+        {
+          "type": "text",
+          "id": "job_city",
+          "label": "City",
+          "default": "New York"
+        },
+        {
+          "type": "url",
+          "id": "apply_link",
+          "label": "Google Forms Link (or other apply link)"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Open Link in New Tab",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Job Listings",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .job-listing-section {
+    padding: 40px 20px;
+  }
+
+  .section-heading {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .section-heading h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .job-listings {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  .job-listing {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    animation: fadeInUp 1s ease;
+  }
+
+  .job-action button.btn.apply-btn {
+    margin: 0;
+  }
+
+  .job-info {
+    flex: 1;
+  }
+
+  .job-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px;
+  }
+
+  .job-meta {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .apply-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .apply-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* No Jobs Message Styling */
+  .no-jobs-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 40px auto;
+    max-width: 600px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease;
+    position: relative;
+  }
+
+  .no-jobs-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  .close-no-jobs {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .close-no-jobs:hover {
+    color: #999;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .job-listing {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .job-action {
+      margin-top: 15px;
+    }
+
+    .job-title {
+      font-size: 20px;
+    }
+
+    .job-meta {
+      font-size: 12px;
+    }
+    
+    .job-listings {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .job-title {
+      font-size: 18px;
+    }
+
+    .apply-btn {
+      padding: 8px 15px;
+    }
+
+    .job-listings {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const applyButtons = document.querySelectorAll('.apply-btn');
+
+    applyButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const jobLink = this.dataset.jobLink;
+        const openNewTab = this.dataset.openNewTab === 'true';
+
+        // Open the apply link
+        if (openNewTab) {
+          window.open(jobLink, '_blank');
+        } else {
+          window.location.href = jobLink;
+        }
+      });
+    });
+
+    {% if section.blocks.size == 0 %}
+      document.querySelector('#job-section-heading').style.display = 'none';
+    {% endif %}
+  });
+</script>

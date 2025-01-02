@@ -1,0 +1,93 @@
+{% if section.settings.enable_timer %}
+    {{ 'component-countdown.css' | asset_url | stylesheet_tag }}
+    <div class="countdown__wrapper">
+      <div class="card">
+        <div class="countdown_heading-wrap multicolumn-card_info">
+          <h3 class="countdown__heading">{{ section.settings.pre_text }}</h3>
+        </div>
+        <div class="countdown">
+           <div>
+            <span class="number days"></span>
+            <span>Days</span>
+           </div>
+           <div>
+            <span class="number hours"></span>
+            <span>Hours</span>
+           </div>
+           <div>
+            <span class="number minutes"></span>
+            <span>Minutes</span>
+           </div>
+           <div>
+            <span class="number seconds"></span>
+            <span>Seconds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+{% if section.settings.enable_timer %}  
+  <script>
+    const newDate = new Date('{{ section.settings.date_time }}').getTime()
+    const countdown = setInterval(() =>{
+      
+    const date = new Date().getTime()
+    const diff = newDate - date
+    
+    const month =  Math.floor((diff % (1000 * 60 * 60 * 24 * (365.25 / 12) * 365)) / (1000 * 60 * 60 * 24 * (365.25 / 12)))
+    const days = Math.floor(diff % (1000 * 60 * 60 * 24 * (365.25 / 12)) / (1000 * 60 * 60 * 24))
+    const hours =  Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+      document.querySelector(".seconds").innerHTML = seconds < 10 ? '0' + seconds : seconds
+      document.querySelector(".minutes").innerHTML = minutes < 10 ? '0' + minutes :minutes
+      document.querySelector(".hours").innerHTML = hours < 10 ? '0' + hours : hours
+      document.querySelector(".days").innerHTML = days < 10 ? '0' + days : days
+    if( diff === 0 || diff < 0 ){
+      clearInterval(countdown)
+            document.querySelector(".countdown__heading").innerHTML = '{{ section.settings.post_text }}'
+            document.querySelector(".countdown").style.display = "none";
+    }
+    
+    }, 1000)
+  </script>
+{% endif %}
+
+{% schema %}
+  {
+  "name": "VB - Countdown",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_timer",
+      "label": "Enable Countdown Timer"
+    },
+    {
+      "type":"text",
+      "id": "pre_text",
+      "default": "Prebooking online starts",
+      "label":"Pre Text"
+    },
+    {
+      "type":"text",
+      "id": "post_text",
+      "default": "Collection is live now!!!",
+      "label":"Post Text"
+    },
+    {
+      "type":"text",
+      "id": "date_time",
+      "label":"Date Time",
+      "default": "aug 5 23 15:59:59",
+      "info": "Give date and time only in this format (aug 5 23 15:59:59)."
+    }
+  ],
+  "presets": [
+    {
+      "name": "VB - Countdown"
+    }
+  ]
+}
+{% endschema %}

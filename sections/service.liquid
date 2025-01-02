@@ -1,0 +1,173 @@
+{% schema %}
+{
+  "name": "Service Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Our Services"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f9f9f9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service_block",
+      "name": "Service Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Service Title",
+          "default": "Service Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Service Description",
+          "default": "Service description goes here."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Service Link",
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service Section",
+      "category": "Custom Sections",
+      "blocks": [
+        {
+          "type": "service_block"
+        },
+        {
+          "type": "service_block"
+        },
+        {
+          "type": "service_block"
+        },
+        {
+          "type": "service_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div id="service-section" style="background-color: {{ section.settings.background_color }};">
+  <div class="container">
+    {% if section.settings.section_heading != blank %}
+      <h2 class="section-heading">{{ section.settings.section_heading }}</h2>
+    {% endif %}
+
+    <div class="service-container">
+      {% for block in section.blocks %}
+        <a href="{{ block.settings.link }}" class="service-link" target="_blank" style="text-decoration: none;">
+          <div class="service-column">
+            {% if block.settings.icon != blank %}
+              <!-- Use the img_url filter to ensure the image is properly resized and displayed -->
+              <img src="{{ block.settings.icon | img_url: '50x50' }}" alt="{{ block.settings.title }}">
+            {% endif %}
+            <h4>{{ block.settings.title }}</h4>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<style>
+   /* General Section Styling */
+   #service-section {
+     padding-top: 15px;
+     padding-bottom: 15px;
+     padding-left: 10px;
+     padding-right: 10px;
+   }
+
+   .section-heading {
+     text-align: center;
+     font-size: 10px;
+     font-weight: bold;
+     margin-bottom: 10px;
+   }
+
+   /* Desktop Layout: 4 Columns */
+   .service-container {
+     margin: 0 auto; /* Center image horizontally */
+     display: grid;
+     grid-template-columns: repeat(4, 1fr); /* Four columns on desktop */
+     gap: 15px; /* Space between columns */
+   }
+
+   .service-column {
+     text-align: center;
+     padding: 2px;
+     background-color: white;
+     border-radius: 5px;
+     box-shadow: 2px 2px 4px 2px grey;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden; /* Prevent overflow of content */
+     height: 50px;
+   }
+
+   .service-column img {
+     width: 15px;
+     height: 15px;
+     object-fit: contain;
+     margin-right: 5px;
+     display: inline-block;
+   }
+
+   .service-column h4 {
+     margin: 0;
+     font-size: 10px;
+     font-weight: bold;
+     display: inline-block;
+     white-space: nowrap; /* Prevents the text from breaking into multiple lines */
+   }
+
+   .service-column p {
+     margin: 0;
+     font-size: 8px;
+     color: black;
+     display: none; /* Hide long descriptions to fit content */
+   }
+
+  @media (max-width: 768px) {
+      .service-container {
+        display: flex; /* Change to flexbox for mobile */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        scroll-snap-type: x mandatory; /* Enable snapping behavior */
+        gap: 15px; /* Space between columns */
+      }
+
+      .service-column {
+        flex: 0 0 70%; /* Each column takes up 70% of the width */
+        scroll-snap-align: start; /* Ensure snapping starts at the beginning of each column */
+        box-sizing: border-box; /* Ensure padding and borders are included in width */
+        width: 320px; /* Set a fixed height for mobile for consistency */
+      }
+
+      /* Optional: Hide scroll bar for a cleaner look */
+      .service-container::-webkit-scrollbar {
+        display: none;
+      }
+    }
+</style>

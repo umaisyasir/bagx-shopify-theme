@@ -1,0 +1,130 @@
+{% if product.available and product.tags contains 'LEFTOVERBAGS' %}
+  <div id="notification" class="notification">
+    <span id="notification-text" class="notification-text">
+      Thank you for purchasing from our collection of leftover bags.<br><br>
+      Please be informed that these bags are sold on a no exchange, no return basis.<br><br>
+      
+      <span class="more-text">
+        As these are leftover pieces, they may have minor imperfections such as small stains, slight stitching issues, or internal defects.<br><br>
+        Rest assured, these imperfections do not affect the overall usability or functionality of the bags.<br><br>
+        We appreciate your understanding and thank you for choosing our brand.<br><br>
+        Enjoy your purchase!<br><br>
+        Warm regards,<br>
+        Bag X Team
+      </span>
+    </span>
+    <button id="read-more-btn" class="read-more-btn">Read More</button>
+  </div>
+
+  <style>
+    .notification {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      position: relative;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 13px;
+      line-height: 1.5;
+      animation: fadeIn 1s ease-out;
+      transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+      max-height: 95px; /* Limit height initially */
+      overflow: hidden; /* Hide overflowing text */
+    }
+
+    .more-text {
+      display: none; /* Hide extra text initially */
+    }
+
+    .expanded {
+      max-height: 1000px !important; /* Increase max-height to show full text */
+      overflow: visible;
+      transition: max-height 0.5s ease-out;
+    }
+
+    .read-more-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px; /* Align button to the bottom-right */
+      padding: 8px 15px;
+      background-color: #721c24;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .read-more-btn:hover {
+      background-color: #dc3545;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .notification {
+        max-height: 130px;
+      }
+    }
+  </style>
+
+  <script>
+    document.getElementById('read-more-btn').addEventListener('click', function() {
+      var notification = document.getElementById('notification');
+      var moreText = document.querySelector('.more-text');
+      var button = document.getElementById('read-more-btn');
+      
+      if (notification.classList.contains('expanded')) {
+        notification.classList.remove('expanded');
+        moreText.style.display = 'none';
+        button.textContent = 'Read More';
+      } else {
+        notification.classList.add('expanded');
+        moreText.style.display = 'inline';
+        button.textContent = 'Show Less';
+      }
+    });
+  </script>
+{% endif %}
+
+{% capture description %}
+  {%- if product.empty? -%}
+    {{ 'home_page.onboarding.product_description' | t }}
+  {%- else -%}
+    {{ product.description }}
+  {%- endif -%}
+{% endcapture %}
+{%- if is_tab -%}
+  {% assign title = 'products.product.description' | t %}
+  {%- render 'tab', id: id, title: title, content: description -%}
+{%- else -%}
+  <div class="rte">
+    {{ description }}
+  </div>
+{%- endif -%}

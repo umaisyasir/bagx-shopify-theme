@@ -1,0 +1,162 @@
+{% schema %}
+{
+  "name": "VB - Custom Blocks",
+  "settings": [
+    {
+      "type": "range",
+      "id": "blocks_per_row_desktop",
+      "label": "Blocks per row (Desktop)",
+      "default": 4,
+      "min": 2,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "type": "select",
+      "id": "blocks_per_row_mobile",
+      "label": "Blocks per row (Mobile)",
+      "default": "2",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Block"
+        },
+        {
+          "value": "2",
+          "label": "2 Blocks"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Info Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_class",
+          "label": "Icon Class"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Block Text"
+        },
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Block Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in a new tab"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VB - Custom Blocks",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="custom-info-blocks-section">
+  <div class="info-blocks-container">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.block_link }}" class="info-block" 
+         {% if block.settings.open_in_new_tab %} target="_blank" {% endif %} 
+         style="color: {{ section.settings.link_color }};">
+        <div class="info-block-content">
+          <i class="{{ block.settings.icon_class }}"></i>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .custom-info-blocks-section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .info-block {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .info-block-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .info-block i {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .info-block p {
+    font-weight: bold;
+    color: inherit;
+    margin: 0;
+  }
+
+  .info-blocks-container {
+    width: 95%;
+    gap: 35px;
+    margin: 20px auto;
+  }
+
+  /* Responsive CSS */
+  @media (min-width: 768px) {
+    .info-blocks-container {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.blocks_per_row_desktop }}, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .info-blocks-container {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.blocks_per_row_mobile }}, 1fr);
+    }
+    .info-blocks-container {
+      gap: 20px;
+    }
+    .info-block p {
+      font-size: 11px;
+    }
+    .info-block i {
+        font-size: 18px;
+    }
+  }
+
+  .info-block:hover {
+    transform: scale(1.05);
+  }
+</style>

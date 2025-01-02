@@ -1,0 +1,139 @@
+{% render 'scrolling-text', section: section %}
+
+
+{% schema %}
+{
+  "name": "t:sections.marquee.name",
+  "class": "index-section--flush",
+  "settings": [
+    {
+      "type": "text",
+      "id": "top-bar-text",
+      "label": "TOP BAR",
+      "default": "11.11 Sale is live"
+    },
+    {
+      "type": "select",
+      "id": "top-bar-font-weight",
+      "label": "Font Weight - TOP BAR",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        },
+        {
+          "value": "lighter",
+          "label": "Lighter"
+        },
+        {
+          "value": "100",
+          "label": "100"
+        },
+        {
+          "value": "200",
+          "label": "200"
+        },
+        {
+          "value": "300",
+          "label": "300"
+        },
+        {
+          "value": "400",
+          "label": "400"
+        },
+        {
+          "value": "500",
+          "label": "500"
+        },
+        {
+          "value": "600",
+          "label": "600"
+        },
+        {
+          "value": "700",
+          "label": "700"
+        },
+        {
+          "value": "800",
+          "label": "800"
+        },
+        {
+          "value": "900",
+          "label": "900"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color12",
+      "label": "Background Color - TOP BAR",
+      "default": "#f52a66"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:sections.marquee.settings.text.label",
+      "default": "Free shipping and returns"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:sections.marquee.settings.link.label"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "t:sections.marquee.settings.text_size.label",
+      "default": 70,
+      "min": 20,
+      "max": 150,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_spacing",
+      "label": "t:sections.marquee.settings.text_spacing.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:sections.marquee.settings.direction.label",
+      "default": "left",
+      "options": [
+        {
+          "label": "t:sections.marquee.settings.direction.options.left.label",
+          "value": "left"
+        },
+        {
+          "label": "t:sections.marquee.settings.direction.options.right.label",
+          "value": "right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:sections.marquee.settings.speed.label",
+      "default": 200,
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "s"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.marquee.presets.scrolling_text.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["custom.popups"]
+  }
+}
+{% endschema %}

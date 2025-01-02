@@ -1,0 +1,575 @@
+{% stylesheet %}
+.store-locator-section {
+  padding: 40px 20px;
+}
+
+.store-locator-heading {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.store-locator {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+  justify-content: center;
+}
+
+/* Custom Scrollbar for WebKit Browsers (Chrome, Edge, Safari) */
+.store-collapsible {
+    width: 25%; /* Adjust container width */
+    max-width: 100%;
+    height: 450px; /* Fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+.store-collapsible::-webkit-scrollbar {
+    width: 10px; /* Width of the vertical scrollbar */
+    height: 0; /* Effectively removes the horizontal scrollbar */
+}
+
+.store-collapsible::-webkit-scrollbar-thumb {
+    background-color: rgba(76, 175, 80, 0.8); /* Semi-transparent handle color */
+    border-radius: 10px; /* Fully rounded scrollbar handle */
+    border: 2px solid transparent; /* Transparent border for space effect */
+    background-clip: padding-box; /* Ensures the border does not overlap the handle */
+}
+
+.store-collapsible::-webkit-scrollbar-track {
+    background: transparent; /* Transparent scrollbar track */
+}
+
+/* Custom Scrollbar for Firefox */
+.store-collapsible {
+    scrollbar-width: thin; /* Set the scrollbar width to thin */
+    scrollbar-color:rgb(175 76 76 / 52%) transparent; /* Handle color and transparent track */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+.collapsible {
+  background-color: #cb86a2;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.collapsible:hover {
+  background-color: #cb86a2;
+  transform: scale(1.02);
+}
+
+.active, .collapsible:active {
+  background-color: #f42b65;
+}
+
+.content {
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  max-height: 0;
+  opacity: 0;
+}
+
+.content.open {
+  display: block;
+  max-height: 500px; /* Allows smooth opening */
+  opacity: 1;
+}
+
+.content ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.content li {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #b7b7b7;
+  padding-bottom: 10px;
+}
+
+.content li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.content p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #7f8c8d;
+  transition: color 0.3s ease;
+}
+
+.store-map iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease 0.2s forwards;
+}
+
+.store-map {
+    position: relative;
+    background: #d5d5d5;
+    width: 75%;
+    height: 450px;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Popup container - hidden by default */
+.map-popup {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+/* The map iframe inside the popup */
+.map-popup iframe {
+  width: 90%;
+  height: 80%;
+  border-radius: 8px;
+  border: none;
+}
+
+/* Close button inside the popup */
+.close-popup {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.content p:first-child {
+    font-size: 16px;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color .3s ease;
+    margin-bottom: 10px;
+}
+
+.content p:first-child:hover {
+  color: #2980b9;
+}
+
+.content p:not(:first-child) {
+  font-weight: 300;
+}
+
+#click-hint {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Show popup only on mobile view */
+@media (max-width: 768px) {
+  .store-map {
+    display: none;
+  }
+  
+  .map-popup {
+    display: none; /* Will be shown by JavaScript */
+  }
+}
+
+@media (max-width: 768px) {
+  .store-locator {
+    flex-direction: column;
+  }
+
+  .store-map iframe {
+    height: 400px;
+    width: 100% !important;
+  }
+
+  .store-collapsible,
+  .store-map {
+    width: 100% !important;
+  }
+}
+{% endstylesheet %}
+
+<div class="store-locator-section">
+  <h2 class="store-locator-heading">{{ section.settings.heading_text }}</h2>
+  <div class="store-locator">
+    <div class="store-collapsible">
+      {% assign lahore_exists = false %}
+      {% assign karachi_exists = false %}
+      {% assign islamabad_exists = false %}
+      {% assign gujrat_exists = false %}
+      {% assign burewala_exists = false %}
+      {% assign sahiwal_exists = false %}
+      {% assign vehari_exists = false %}
+
+      {% for block in section.blocks %}
+        {% if block.settings.city == 'lahore' %}
+          {% assign lahore_exists = true %}
+        {% elsif block.settings.city == 'karachi' %}
+          {% assign karachi_exists = true %}
+        {% elsif block.settings.city == 'islamabad' %}
+          {% assign islamabad_exists = true %}
+        {% elsif block.settings.city == 'gujrat' %}
+          {% assign gujrat_exists = true %}
+        {% elsif block.settings.city == 'burewala' %}
+          {% assign burewala_exists = true %}
+        {% elsif block.settings.city == 'sahiwal' %}
+          {% assign sahiwal_exists = true %}
+        {% elsif block.settings.city == 'vehari' %}
+          {% assign vehari_exists = true %}
+        {% endif %}
+      {% endfor %}
+
+      {% if lahore_exists %}
+        <button class="collapsible">Lahore</button>
+        <div class="content" id="lahore-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'lahore' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if karachi_exists %}
+        <button class="collapsible">Karachi</button>
+        <div class="content" id="karachi-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'karachi' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if islamabad_exists %}
+        <button class="collapsible">Islamabad</button>
+        <div class="content" id="islamabad-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'islamabad' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if gujrat_exists %}
+        <button class="collapsible">Gujrat</button>
+        <div class="content" id="gujrat-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'gujrat' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if burewala_exists %}
+        <button class="collapsible">Burewala</button>
+        <div class="content" id="burewala-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'burewala' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if sahiwal_exists %}
+        <button class="collapsible">Sahiwal</button>
+        <div class="content" id="sahiwal-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'sahiwal' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if vehari_exists %}
+        <button class="collapsible">Vehari</button>
+        <div class="content" id="vehari-content">
+          <ul>
+            {% for block in section.blocks %}
+              {% if block.settings.city == 'vehari' %}
+                <li>
+                  <a href="#" class="store-location" data-map="{{ block.settings.store_iframe | escape }}">
+                    <div class="store-info">
+                      <p class="store-name">{{ block.settings.store_name | strip_html }}</p>
+                      <p>{{ block.settings.store_address }}</p>
+                      <p>{{ block.settings.store_hours }}</p>
+                    </div>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+    </div>
+
+ <div class="map-popup" id="map-popup">
+      <span class="close-popup" id="close-popup">&times;</span>
+      <iframe
+        src="{{ section.settings.default_map_iframe | escape }}"
+        frameborder="0" style="border:0" allowfullscreen loading="lazy" id="popup-map-iframe"></iframe>
+    </div>
+    
+    <div class="store-map">
+      <div id="click-hint">Click on the location to show the map</div>
+      <iframe
+        src="{{ section.settings.default_map_iframe | escape }}"
+        frameborder="0" style="border:0" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.content a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var mapUrl = this.getAttribute('data-map');
+
+    if (window.innerWidth <= 768) {
+      // Mobile view: Show map in popup
+      var popupContainer = document.getElementById('map-popup');
+      var popupIframe = document.getElementById('popup-map-iframe');
+      popupIframe.src = mapUrl;
+      popupContainer.style.display = 'flex'; // Show popup
+    } else {
+      // Desktop view: Update iframe in place
+      var mapContainer = document.querySelector('.store-map iframe');
+      mapContainer.src = mapUrl;
+    }
+  });
+});
+
+// Close popup functionality
+document.getElementById('close-popup').addEventListener('click', function() {
+  var popupContainer = document.getElementById('map-popup');
+  popupContainer.style.display = 'none'; // Hide popup
+});
+
+// Function to close popup if clicked outside the iframe
+document.addEventListener('click', function(e) {
+  var popupContainer = document.getElementById('map-popup');
+  if (e.target === popupContainer) {
+    popupContainer.style.display = 'none';
+  }
+});
+
+// Collapsible functionality for the store list
+var coll = document.getElementsByClassName("collapsible");
+
+for (var i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function(event) {
+    event.preventDefault();
+
+    for (var j = 0; j < coll.length; j++) {
+      if (coll[j] !== this && coll[j].classList.contains("active")) {
+        coll[j].classList.remove("active");
+        var content = coll[j].nextElementSibling;
+        if (content.classList.contains("open")) {
+          content.classList.remove("open");
+        }
+      }
+    }
+
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+
+    if (content.classList.contains("open")) {
+      content.classList.remove("open");
+    } else {
+      content.classList.add("open");
+    }
+  });
+}
+
+// Automatically open the first collapsible on page load
+if (coll.length > 0) {
+  coll[0].classList.add("active");
+  var firstContent = coll[0].nextElementSibling;
+  firstContent.classList.add("open");
+}
+</script>
+
+{% schema %}
+{
+  "name": "VB - Google Map",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Find Our Stores"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "store",
+      "name": "Store Location",
+      "settings": [
+        {
+          "type": "select",
+          "id": "city",
+          "label": "City",
+          "options": [
+            { "value": "lahore", "label": "Lahore" },
+            { "value": "karachi", "label": "Karachi" },
+            { "value": "islamabad", "label": "Islamabad" },
+            { "value": "gujrat", "label": "Gujrat" },
+            { "value": "burewala", "label": "Burewala" },
+            { "value": "sahiwal", "label": "Sahiwal" },
+            { "value": "vehari", "label": "Vehari" }
+          ],
+          "default": "lahore"
+        },
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store Name",
+          "default": "BAG X"
+        },
+        {
+          "type": "text",
+          "id": "store_address",
+          "label": "Store Address",
+          "default": "Amanah Mall, Lahore, Punjab"
+        },
+        {
+          "type": "textarea",
+          "id": "store_hours",
+          "label": "Store Hours",
+          "default": "Monday - Thursday 10:30 - 22:00"
+        },
+        {
+          "type": "textarea",
+          "id": "store_iframe",
+          "label": "Google Maps Embed Iframe"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VB - Google Map",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

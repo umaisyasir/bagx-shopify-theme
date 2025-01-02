@@ -1,0 +1,291 @@
+{% stylesheet %}
+/* General Styles */
+.image-with-text-section {
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.image-with-text-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.text-container {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+  animation: slideInLeft 1s ease-in-out;
+}
+
+.text-container h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.text-container p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: transparent;
+  color: #000;
+  text-decoration: none;
+  border: 2px solid #000;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: #fff;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.cta-button:hover {
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
+
+.cta-button span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Button Animation */
+@keyframes buttonHover {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cta-button:hover {
+  animation: buttonHover 0.4s ease-in-out;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 45%;
+  animation: slideInRight 1s ease-in-out;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), 
+              filter 0.5s ease, opacity 0.5s ease;
+  transform-origin: center;
+  filter: brightness(0.9) contrast(1.2);
+  opacity: 0.9;
+  border-radius: 30px;
+}
+
+/* Hover effects with high-end animations */
+.image-container:hover img {
+  transform: scale(1.1) rotate(3deg);
+  filter: brightness(1) contrast(1);
+  opacity: 1;
+}
+
+/* Advanced loading animation */
+@keyframes imageFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .image-with-text-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image-container:hover img {
+    transform: none;
+  }
+
+  .text-container h2 {
+    line-height: 35px;
+  }
+
+  .text-container, .image-container {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .image-container img {
+    max-width: 100%;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+{% endstylesheet %}
+
+<section class="image-with-text-section">
+  <div class="container">
+    <div class="image-with-text-content">
+      {% if section.settings.image_position == 'left' %}
+        <div class="image-container">
+          <a href="{{ section.settings.button_link }}" {% if section.settings.open_in_new_tab %} target="_blank" {% endif %}>
+            <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}">
+          </a>
+        </div>
+        <div class="text-container">
+          <h2>{{ section.settings.heading }}</h2>
+          <p>{{ section.settings.description }}</p>
+          {% if section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="cta-button" {% if section.settings.open_in_new_tab %} target="_blank" {% endif %}>{{ section.settings.button_text }}</a>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="text-container">
+          <h2>{{ section.settings.heading }}</h2>
+          <p>{{ section.settings.description }}</p>
+          {% if section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="cta-button" {% if section.settings.open_in_new_tab %} target="_blank" {% endif %}>{{ section.settings.button_text }}</a>
+          {% endif %}
+        </div>
+        <div class="image-container">
+          <a href="{{ section.settings.button_link }}" {% if section.settings.open_in_new_tab %} target="_blank" {% endif %}>
+            <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}">
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VB - IMAGE TEXT",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "heading",
+      "default": "Your Heading Here"
+    },
+    {
+      "type": "textarea",
+      "label": "Description",
+      "id": "description",
+      "default": "Add your description here."
+    },
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "id": "image"
+    },
+    {
+      "type": "url",
+      "label": "Button Link",
+      "id": "button_link"
+    },
+    {
+      "type": "text",
+      "label": "Button Text",
+      "id": "button_text",
+      "default": "Click Here"
+    },
+    {
+      "type": "select",
+      "label": "Image Position",
+      "id": "image_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "label": "Open Link in New Tab",
+      "id": "open_in_new_tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "VB - IMAGE TEXT",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

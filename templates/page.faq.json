@@ -1,0 +1,231 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Payments",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "faq-1": {
+          "type": "question",
+          "settings": {
+            "title": "What payment methods do you accept?",
+            "text": "<p>We accept various payment methods, including:</p><ul><li>Cash on delivery</li><li>Credit/Debit cards</li><li>Bank transfers</li><li>Jazz Cash/Easy Paisa</li></ul>"
+          }
+        },
+        "faq-2": {
+          "type": "question",
+          "settings": {
+            "title": "Is my payment information secure?",
+            "text": "<p>Yes, we use industry-standard encryption to ensure that your payment information is secure and protected during transactions.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Order Related",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "faq-4": {
+          "type": "question",
+          "settings": {
+            "title": "How can I place an order?",
+            "text": "<p>Placing an order is easy! Simply browse our collection, select the bag you love, choose your preferred size and color, and click on the \"Add to Cart\" button. Follow the prompts to complete your purchase at checkout or you can WhatsApp your details and our agent. We will place your order and provide you the order number.</p>"
+          }
+        },
+        "question_73RezJ": {
+          "type": "question",
+          "settings": {
+            "title": "How can I track my order?",
+            "text": "<p>Once your order has been shipped, you will receive a confirmation msg/email with a tracking number. You can use this number to monitor your shipment's progress on our website <a href=\"https://www.bagx.pk/pages/track-your-order\">https://www.bagx.pk/pages/track-your-order</a><br/></p>"
+          }
+        },
+        "rich_text_eVHMKT": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Shipping Related INFO",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "question_JAdit8": {
+          "type": "question",
+          "settings": {
+            "title": "Do you offer international shipping?",
+            "text": "<p>Yes, we offer international shipping in addition to our services within Pakistan. For international orders, customers are required to make advance payment. If you have any questions, please contact our customer support team.</p>"
+          }
+        },
+        "question_khtgPR": {
+          "type": "question",
+          "settings": {
+            "title": "What are the shipping charges?",
+            "text": "<p>Our standard shipping charge is PKR Rs 199/- for all orders within Pakistan. For international shipping, charges may vary based on destination and order size. Please contact our customer support team for specific details regarding international shipping costs.</p>"
+          }
+        },
+        "rich_text_WFPD4h": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Return and Exchange Info",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "question_NVKHYc": {
+          "type": "question",
+          "settings": {
+            "title": "What is your return policy?",
+            "text": "<p>If you’re not satisfied with your purchase, you can return it within 10 days of receiving it. Please ensure that the item is unused and in its original packaging.</p>"
+          }
+        },
+        "question_d6nTEt": {
+          "type": "question",
+          "settings": {
+            "title": "What should I do if I receive a damaged item?",
+            "text": "<p>If you receive a damaged item, please contact our customer support team within 24 hours of delivery. Provide clear photos of the damage, and we'll arrange for a replacement or refund.</p>"
+          }
+        },
+        "question_3kCnAX": {
+          "type": "question",
+          "settings": {
+            "title": "What should I do if an item is missing from my order?",
+            "text": "<p>If any items are missing from your order, please inform us within 24 hours of receiving your package. We'll investigate the issue and send the missing item or provide a refund.</p>"
+          }
+        },
+        "question_LD7Gt6": {
+          "type": "question",
+          "settings": {
+            "title": "Can I exchange my bag for a different style or size?",
+            "text": "<p>Yes! If you'd like to exchange your bag for a different style or size, please contact our customer service team within 24 working hours of receiving your order for assistance.</p>"
+          }
+        },
+        "rich_text_R3qbB6": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Customer Support Info",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "question_TLKN4P": {
+          "type": "question",
+          "settings": {
+            "title": "How can I contact customer support?",
+            "text": "<p>You can reach our customer support team through various<br/>channels:</p><ul><li><strong>WhatsApp Live Support:</strong> <a href=\"https://api.whatsapp.com/send/?phone=923334124921&text&type=phone_number&app_absent=0\" title=\"https://api.whatsapp.com/send/?phone=923334124921&text&type=phone_number&app_absent=0\">+92 333 4124 921</a></li><li><strong>Phone:</strong> UAN: 0304-111-666-8</li><li><strong>Email:</strong> <a href=\"mailto:bagx.pk@gmail.com\">bagx.pk@gmail.com</a> or <a href=\"mailto:cs.bagx@gmail.com\">cs.bagx@gmail.com</a></li><li><strong>WhatsApp for Complaints:</strong> +92 333 4766 356</li></ul>"
+          }
+        },
+        "question_VFx9Cn": {
+          "type": "question",
+          "settings": {
+            "title": "What are your business hours?",
+            "text": "<p>Our customer support team is available from Monday to Saturday, 9:00 AM to 2:00 AM.</p>"
+          }
+        },
+        "question_hV89L6": {
+          "type": "question",
+          "settings": {
+            "title": "Do you offer live chat support?",
+            "text": "<p>Yes! You can access our live chat support during business hours at <a href=\"https://api.whatsapp.com/send/?phone=923334124921&text&type=phone_number&app_absent=0\" title=\"https://api.whatsapp.com/send/?phone=923334124921&text&type=phone_number&app_absent=0\">+92 333 4124 921</a></p>"
+          }
+        },
+        "question_8UQg4Q": {
+          "type": "question",
+          "settings": {
+            "title": "How quickly can I expect a response from customer support?",
+            "text": "<p>We strive to respond to all inquiries as quickly as possible, typically within 24 hours. For urgent matters, please use our WhatsApp contact.</p>"
+          }
+        },
+        "question_8JDm4b": {
+          "type": "question",
+          "settings": {
+            "title": "What should I do if I have a complaint?",
+            "text": "<p>If you have a complaint, please reach out to us via WhatsApp at <a href=\"tel:+92 333 4766 356\" title=\"tel:+92 333 4766 356\">+92 333 4766 356</a> or email us at <a href=\"mailto:cs.bagx@gmail.com\">cs.bagx@gmail.com</a><br/>We take all complaints seriously and will work to resolve any issues promptly. Feel free to adjust any details as needed!</p>"
+          }
+        },
+        "rich_text_twdrjP": {
+          "type": "rich-text",
+          "settings": {
+            "title": "Product Related Info",
+            "text": "",
+            "align_text": "left"
+          }
+        },
+        "question_Vazaa8": {
+          "type": "question",
+          "settings": {
+            "title": "What types of bags do you offer?",
+            "text": "<p>We offer a wide variety of bags, including:</p><ul><li><strong>Tote Bags</strong>: Functional and fashionable bags suitable for everyday use.</li><li><strong>Duffle Bags</strong>: Ideal for travel or gym use, providing ample space for essentials.</li><li><strong>Handbags for Girls</strong>: Trendy and Stylish Bag options designed.</li><li><strong>Crossbody Bags</strong>: Convenient bags that allow for hands-free carrying.</li><li><strong>Shoulder Bags</strong>: Classic styles that combine elegance with practicality.</li><li><strong>Laptop Bags</strong>: Designed for functionality, these bags offer protection and style for your tech gear.</li><li><strong>Chic Backpacks</strong>: Combining style with practicality, these backpacks are perfect for students or casual outings.</li></ul>"
+          }
+        },
+        "question_imK6Vx": {
+          "type": "question",
+          "settings": {
+            "title": "Are your bags made from high-quality materials?",
+            "text": "<p>Absolutely! We prioritize quality in all our products. Our bags are crafted from durable materials to ensure longevity and style.</p>"
+          }
+        },
+        "question_ff7YhD": {
+          "type": "question",
+          "settings": {
+            "title": "How do I know which bag is right for me?",
+            "text": "<p>We provide detailed descriptions and images for each product to help you make an informed decision. If you have specific questions about a product, feel free to contact our customer service team for assistance.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "question_73RezJ",
+        "rich_text_eVHMKT",
+        "question_JAdit8",
+        "question_khtgPR",
+        "rich_text_WFPD4h",
+        "question_NVKHYc",
+        "question_d6nTEt",
+        "question_3kCnAX",
+        "question_LD7Gt6",
+        "rich_text_R3qbB6",
+        "question_TLKN4P",
+        "question_VFx9Cn",
+        "question_hV89L6",
+        "question_8UQg4Q",
+        "question_8JDm4b",
+        "rich_text_twdrjP",
+        "question_Vazaa8",
+        "question_imK6Vx",
+        "question_ff7YhD"
+      ],
+      "settings": {
+        "title": "FAQ's"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

@@ -1,0 +1,11 @@
+{%- capture seo_title -%}
+  {{ page_title }}
+  {%- if current_tags -%}
+    {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+  {%- endif -%}
+  {%- if template == 'password' -%}
+    {{ shop.name }}
+  {%- else -%}
+  {%- endif -%}
+{%- endcapture -%}
+<title>{{ seo_title }}</title>
