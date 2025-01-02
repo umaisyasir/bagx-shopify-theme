@@ -543,7 +543,6 @@ function openPopup(videoElement) {
   const productTitleElement = document.querySelector(".popup-product-title");
   const productPriceElement = document.querySelector(".popup-product-price");
   const addToCartInput = document.querySelector(".popup-add-to-cart-form input[name='id']");
-  const productHandle = videoElement.closest(".swiper-slide").getAttribute("data-product-handle");
   popupVideo.src = videoElement.src;
   popupLogo.src = "{{ section.settings.logo_url }}";
   popup.classList.add("active");
@@ -685,18 +684,9 @@ if (productHandle) {
   }
 } else {
   // Clear product details if no product handle is found
-  popupProductTitle.textContent = "Product not available";
+  popupProductTitle.textContent = "";
   popupProductPrice.textContent = "";
   popupAddToCartForm.querySelector("input[name='id']").value = "";
-} else {
-    // Clear fields if no product handle is found
-    productTitleElement.textContent = "";
-    productPriceElement.textContent = "";
-    addToCartInput.value = "";
-  }
-
-  // Show popup
-  popup.classList.add("active");
 }
 
 currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
