@@ -690,32 +690,6 @@ if (productHandle) {
 }
 
 currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
-
-  if (productHandle) {
-    // Access the product from Shopify's `all_products` object
-    const product = {{ all_products | json }}[productHandle];
-
-    if (product) {
-      // Populate the product details in the popup
-      productTitleElement.textContent = product.title;
-      productPriceElement.textContent = product.price | money;
-      addToCartInput.value = product.variants[0].id; // Use the first variant's ID
-    } else {
-      // If the product is not found, clear the fields
-      productTitleElement.textContent = "Product not available";
-      productPriceElement.textContent = "";
-      addToCartInput.value = "";
-    }
-  } else {
-    // Clear fields if no product handle is found
-    productTitleElement.textContent = "";
-    productPriceElement.textContent = "";
-    addToCartInput.value = "";
-  }
-
-  // Show popup
-  popup.classList.add("active");
-}
 </script>
 
 {% schema %}
