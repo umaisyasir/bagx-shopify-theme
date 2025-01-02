@@ -10,7 +10,7 @@
             <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
           </div>
         
-          {% if reel.settings.product_handle %}
+          {% if reel.settings.product_handle %} 
             {% assign product = all_products[reel.settings.product_handle] %}
             {% if product %}
               <div class="product-info">
