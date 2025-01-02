@@ -684,9 +684,18 @@ if (productHandle) {
   }
 } else {
   // Clear product details if no product handle is found
-  popupProductTitle.textContent = "";
+  popupProductTitle.textContent = "Product not available";
   popupProductPrice.textContent = "";
   popupAddToCartForm.querySelector("input[name='id']").value = "";
+} else {
+    // Clear fields if no product handle is found
+    productTitleElement.textContent = "";
+    productPriceElement.textContent = "";
+    addToCartInput.value = "";
+  }
+
+  // Show popup
+  popup.classList.add("active");
 }
 
 currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
