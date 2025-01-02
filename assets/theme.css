@@ -13574,6 +13574,6 @@ html, body {
 
 .footer__social a svg:hover::before,
 .toolbar__social a svg:hover::before {
-  transform: scale(1.4); /* Expand glowing effect */
+  transform: scale(1.4);
   opacity: 1;
 }
