@@ -10,7 +10,7 @@
             <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
           </div>
         
-          {% if reel.settings.product_handle %} 
+          {% if reel.settings.product_handle %}
             {% assign product = all_products[reel.settings.product_handle] %}
             {% if product %}
               <div class="product-info">
@@ -41,14 +41,17 @@
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
 
-    <div class="popup-product-info">
-      <h3 class="popup-product-title"></h3>
-      <p class="popup-product-price"></p>
-      <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="">
-        <button type="submit" class="popup-add-to-cart">Add to Cart</button>
-      </form>
-    </div>
+    {% assign product = all_products[reel.settings.product_handle] %}
+      {% if product %}
+        <h3 class="popup-product-title">{{ product.title }}</h3>
+        <p class="popup-product-price">{{ product.price | money }}</p>
+        <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+        </form>
+      {% else %}
+        <h3 class="popup-product-title">Product not available</h3>
+      {% endif %}
     
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
@@ -669,21 +672,21 @@ document.addEventListener("DOMContentLoaded", function () {
 if (productHandle) {
   const product = {{ all_products | json }}[productHandle];
   if (product) {
-    // Populate the product details in the popup
-    productTitleElement.textContent = product.title;
-    productPriceElement.textContent = Shopify.formatMoney(product.price, "{{ shop.money_format }}");
-    addToCartInput.value = product.variants[0].id; // Use the first variant's ID
+    // Populate product details in the popup
+    popupProductTitle.textContent = product.title;
+    popupProductPrice.textContent = product.price | money;
+    popupAddToCartForm.querySelector("input[name='id']").value = product.variants[0].id; // Use the first variant's ID
   } else {
-    // If the product is not found, show a message
-    productTitleElement.textContent = "Product not available";
-    productPriceElement.textContent = "";
-    addToCartInput.value = "";
+    // If product is not found, show a message
+    popupProductTitle.textContent = "Product not available";
+    popupProductPrice.textContent = "";
+    popupAddToCartForm.querySelector("input[name='id']").value = "";
   }
 } else {
-  // If no product handle is found, clear the fields
-  productTitleElement.textContent = "";
-  productPriceElement.textContent = "";
-  addToCartInput.value = "";
+  // Clear product details if no product handle is found
+  popupProductTitle.textContent = "";
+  popupProductPrice.textContent = "";
+  popupAddToCartForm.querySelector("input[name='id']").value = "";
 }
 
 currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
