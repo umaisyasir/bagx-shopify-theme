@@ -544,6 +544,9 @@ function openPopup(videoElement) {
   const popup = document.getElementById("reelPopup");
   const popupVideo = document.getElementById("popupVideo");
   const popupLogo = document.getElementById("popupLogo");
+  const popupProductTitle = document.querySelector(".popup-product-title");
+  const popupProductPrice = document.querySelector(".popup-product-price");
+  const popupAddToCartForm = document.querySelector(".popup-add-to-cart-form");
   popupVideo.src = videoElement.src;
   popupLogo.src = "{{ section.settings.logo_url }}";
   popup.classList.add("active");
@@ -670,6 +673,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+if (productHandle) {
+  const product = {{ all_products | json }}[productHandle];
+  if (product) {
+    // Populate product details in the popup
+    popupProductTitle.textContent = product.title;
+    popupProductPrice.textContent = product.price | money;
+    popupAddToCartForm.querySelector("input[name='id']").value = product.variants[0].id; // Use the first variant's ID
+  } else {
+    // If product is not found, show a message
+    popupProductTitle.textContent = "Product not available";
+    popupProductPrice.textContent = "";
+    popupAddToCartForm.querySelector("input[name='id']").value = "";
+  }
+} else {
+  // Clear product details if no product handle is found
+  popupProductTitle.textContent = "";
+  popupProductPrice.textContent = "";
+  popupAddToCartForm.querySelector("input[name='id']").value = "";
+}
+
+currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
 </script>
 
 {% schema %}
