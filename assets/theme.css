@@ -13572,8 +13572,8 @@ html, body {
   z-index: -1;
 }
 
-.footer__social a svg:hover::before,
+/* .footer__social a svg:hover::before,
 .toolbar__social a svg:hover::before {
   transform: scale(1.4); /* Expand glowing effect */
   opacity: 1;
-}
+} */
