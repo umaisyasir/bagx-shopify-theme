@@ -4,13 +4,31 @@
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {% for reel in section.blocks %}
-      <div class="swiper-slide">
-        <div class="reel-wrapper">
-          <video src="{{ reel.settings.reel_url }}" muted autoplay loop id="frontVideo{{ forloop.index }}" onclick="openPopup(this)" onended="repeatVideo(this)" playsinline></video>
-          <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
+        <div class="swiper-slide" style="flex-wrap: wrap;" data-product-handle="{{ reel.settings.product_handle }}">
+          <div class="reel-wrapper">
+            <video src="{{ reel.settings.reel_url }}" muted autoplay loop id="frontVideo{{ forloop.index }}" onclick="openPopup(this)" onended="repeatVideo(this)" playsinline></video>
+            <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
+          </div>
+        
+          {% if reel.settings.product_handle %}
+            {% assign product = all_products[reel.settings.product_handle] %}
+            {% if product %}
+              <div class="product-info">
+                <h3>{{ product.title }}</h3>
+                <p class="product-price">{{ product.price | money }}</p>
+        
+                <!-- Add to Cart Form -->
+                <form action="/cart/add" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" class="product-link">Add to Cart</button>
+                </form>
+              </div>
+            {% else %}
+              <p>Product not available.</p>
+            {% endif %}
+          {% endif %}
         </div>
-      </div>
-      {% endfor %}
+        {% endfor %}
     </div>
     <div class="swiper-button-next fas fa-chevron-right"></div>
     <div class="swiper-button-prev fas fa-chevron-left"></div>
@@ -22,6 +40,17 @@
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
+    
+    <!-- Product Info Section -->
+    <div class="popup-product-info">
+      <h3 class="popup-product-title"></h3>
+      <p class="popup-product-price"></p>
+      <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="">
+        <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+      </form>
+    </div>
+    
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
       <button class="popup-next fas fa-chevron-right" onclick="nextVideo()"></button>
@@ -36,6 +65,45 @@
 </div>
 
 <style>
+.product-info {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.product-info h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.product-info p {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 15px;
+}
+
+.product-link {
+  padding: 10px 20px;
+  background-color: #e60000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.product-link:hover {
+  background-color: #b30000;
+}
+
 .custom-reels-section {
   margin: 20px auto;
   width: 90%;
@@ -73,7 +141,6 @@
   justify-content: center;
   align-items: stretch;
   transition: transform 0.5s ease;
-  height: initial !important;
 }
 
 .reel-wrapper {
@@ -174,6 +241,136 @@
 .reel-popup.active {
   display: flex;
   animation: fadeIn 0.5s ease forwards;
+}
+
+.popup-content {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  height: 80%;
+  background-color: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This ensures the content is spaced properly */
+  transition: all 0.5s ease;
+  animation: popUpAnimation 0.5s ease;
+}
+
+@keyframes popUpAnimation {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.popup-product-info {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  width: 80%;
+  text-align: center;
+}
+
+.popup-product-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.popup-product-price {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.popup-add-to-cart {
+  background-color: #e60000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.popup-add-to-cart:hover {
+  background-color: #b30000;
+}
+
+.popup-navigation {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 0 10px;
+}
+
+.popup-prev,
+.popup-next {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.popup-prev:hover,
+.popup-next:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.2);
+}
+
+.popup-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 2;
+}
+
+.popup-controls button {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-controls button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  transform: scale(1.15);
+}
+
+.popup-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  max-width: 100px;
+  z-index: 3;
+  object-fit: contain;
+  animation: logoFadeIn 0.5s ease forwards;
+}
+
+@keyframes logoFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .reel-popup.bottom_rightwidth {
@@ -451,6 +648,26 @@ document.addEventListener("DOMContentLoaded", function () {
     loop: false,
   });
 });
+
+  document.addEventListener("DOMContentLoaded", function () {
+  // Select all the swiper-slide blocks
+  const blocks = document.querySelectorAll(".swiper-slide");
+
+  blocks.forEach(function(block) {
+    // Get the product handle from the data attribute
+    const productHandle = block.getAttribute("data-product-handle");
+
+    // If no product handle is set, hide the product info section
+    if (!productHandle) {
+      // Find the product-info section and hide it
+      const productInfo = block.querySelector(".product-info");
+      if (productInfo) {
+        productInfo.style.display = "none";
+      }
+    }
+  });
+});
+
 </script>
 
 {% schema %}
@@ -470,15 +687,21 @@ document.addEventListener("DOMContentLoaded", function () {
       "settings": [
         {
           "type": "url",
-          "id": "reel_url",
-          "label": "Reel URL"
+          "label": "Reel Video URL",
+          "id": "reel_url"
+        },
+        {
+          "type": "text",
+          "label": "Product Handle",
+          "id": "product_handle"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "VB - Custom Reels"
+      "name": "VB - Custom Reels",
+      "category": "Custom"
     }
   ]
 }
