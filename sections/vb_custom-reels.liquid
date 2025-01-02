@@ -40,7 +40,6 @@
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
-    {% for reel in section.blocks %}
     {% assign product = all_products[reel.settings.product_handle] %}
       <div class="popup-product-details">
         {% if product %}
@@ -54,7 +53,6 @@
           <h3 class="popup-product-title">Product not available</h3>
         {% endif %}
       </div>
-    {% endfor %}
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
       <button class="popup-next fas fa-chevron-right" onclick="nextVideo()"></button>
