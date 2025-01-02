@@ -668,28 +668,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
 if (productHandle) {
+  // Access the product from Shopify's `all_products` object
   const product = {{ all_products | json }}[productHandle];
+
   if (product) {
-    // Populate product details in the popup
-    popupProductTitle.textContent = product.title;
-    popupProductPrice.textContent = product.price | money;
-    popupAddToCartForm.querySelector("input[name='id']").value = product.variants[0].id; // Use the first variant's ID
+    // Populate the product details in the popup
+    productTitleElement.textContent = product.title;
+    productPriceElement.textContent = product.price | money;
+    addToCartInput.value = product.variants[0].id; // Use the first variant's ID
   } else {
-    // If product is not found, show a message
-    popupProductTitle.textContent = "Product not available";
-    popupProductPrice.textContent = "";
-    popupAddToCartForm.querySelector("input[name='id']").value = "";
+    // If the product is not found, clear the fields
+    productTitleElement.textContent = "Product not available";
+    productPriceElement.textContent = "";
+    addToCartInput.value = "";
   }
 } else {
-  // Clear product details if no product handle is found
-  popupProductTitle.textContent = "";
-  popupProductPrice.textContent = "";
-  popupAddToCartForm.querySelector("input[name='id']").value = "";
+  // Clear fields if no product handle is found
+  productTitleElement.textContent = "";
+  productPriceElement.textContent = "";
+  addToCartInput.value = "";
 }
 
-currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
+// Show popup
+popup.classList.add("active");
+}
 </script>
 
 {% schema %}
