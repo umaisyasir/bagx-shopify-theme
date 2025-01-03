@@ -537,6 +537,8 @@
       const productHandle = slide.getAttribute("data-product-handle");
       const productInfo = slide.querySelector(".product-info");
 
+      const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
+
       if (productHandle) {
         const productTitle = slide.querySelector(".product-info h3");
         const productPrice = slide.querySelector(".product-info .product-price");
@@ -547,7 +549,7 @@
             title: productTitle.textContent,
             price: productPrice.textContent,
             id: productId,
-            videoSrc: slide.querySelector("video").src,
+            videoSrc: videoSrc,
             hasProduct: true
           });
         }
@@ -559,7 +561,8 @@
       } else {
         // If no product handle exists, mark it as no product and hide product info
         productDetails.push({
-          hasProduct: false
+          hasProduct: false,
+          videoSrc: videoSrc || "{{ section.settings.default_video_url }}" // Assign a fallback video if no product handle
         });
 
         if (productInfo) {
@@ -587,7 +590,8 @@
     currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
     const product = productDetails[currentVideoIndex];
 
-    popupVideo.src = product.videoSrc;
+    // Check if video source is valid; fallback if undefined
+    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
     popupLogo.src = "{{ section.settings.logo_url }}";
 
     if (product.hasProduct) {
@@ -684,7 +688,8 @@
 
     const product = productDetails[currentVideoIndex];
 
-    popupVideo.src = product.videoSrc;
+    // Check if video source is valid; fallback if undefined
+    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
     if (product.hasProduct) {
       // Show product details
       popupProductTitle.textContent = product.title;
