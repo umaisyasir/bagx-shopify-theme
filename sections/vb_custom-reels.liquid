@@ -9,23 +9,22 @@
               <video src="{{ reel.settings.reel_url }}" muted autoplay loop id="frontVideo{{ forloop.index }}" onclick="openPopup(this)" onended="repeatVideo(this)" playsinline></video>
               <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
             </div>
-            {% if section.settings.front_button %}
-              {% if reel.settings.product_handle %}
-                {% assign product = all_products[reel.settings.product_handle] %}
-                {% if product %}
-                  <div class="product-info">
-                    <h3>{{ product.title }}</h3>
-                    <p class="product-price">{{ product.price | money }}</p>
 
-                    <!-- Add to Cart Form -->
-                    <form action="/cart/add" method="post" enctype="multipart/form-data">
-                      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                      <button type="submit" class="product-link">Add to Cart</button>
-                    </form>
-                  </div>
-                {% else %}
-                  <p>Product not available.</p>
-                {% endif %}
+            {% if reel.settings.product_handle %}
+              {% assign product = all_products[reel.settings.product_handle] %}
+              {% if product %}
+                <div class="product-info">
+                  <h3>{{ product.title }}</h3>
+                  <p class="product-price">{{ product.price | money }}</p>
+
+                  <!-- Add to Cart Form -->
+                  <form action="/cart/add" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="product-link">Add to Cart</button>
+                  </form>
+                </div>
+              {% else %}
+                <p>Product not available.</p>
               {% endif %}
             {% endif %}
           </div>
@@ -774,11 +773,6 @@
       "type": "url",
       "id": "logo_url",
       "label": "Logo URL"
-    },
-    {
-      "type": "checkbox",
-      "id": "front_button",
-      "label": "Show on Front"
     }
   ],
   "blocks": [
