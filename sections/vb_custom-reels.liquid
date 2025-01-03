@@ -546,8 +546,14 @@
             price: productPrice.textContent,
             id: productId,
             videoSrc: slide.querySelector("video").src,
+            hasProduct: true
           });
         }
+      } else {
+        // If no product handle exists, mark it as no product
+        productDetails.push({
+          hasProduct: false
+        });
       }
     });
   }
@@ -572,9 +578,20 @@
 
     popupVideo.src = product.videoSrc;
     popupLogo.src = "{{ section.settings.logo_url }}";
-    popupProductTitle.textContent = product.title;
-    popupProductPrice.textContent = product.price;
-    popupProductId.value = product.id;
+
+    if (product.hasProduct) {
+      // Show product details
+      popupProductTitle.textContent = product.title;
+      popupProductPrice.textContent = product.price;
+      popupProductId.value = product.id;
+      popupAddToCartForm.style.display = "block";  // Show the add to cart form
+    } else {
+      // Hide product details if no product is assigned
+      popupProductTitle.textContent = "Product not available";
+      popupProductPrice.textContent = "";
+      popupProductId.value = "";
+      popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+    }
 
     popup.classList.add("active");
   }
@@ -652,13 +669,24 @@
     const popupProductTitle = document.getElementById("popupProductTitle");
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupProductId = document.getElementById("popupProductId");
+    const popupAddToCartForm = document.getElementById("popupAddToCartForm");
 
     const product = productDetails[currentVideoIndex];
 
     popupVideo.src = product.videoSrc;
-    popupProductTitle.textContent = product.title;
-    popupProductPrice.textContent = product.price;
-    popupProductId.value = product.id;
+    if (product.hasProduct) {
+      // Show product details
+      popupProductTitle.textContent = product.title;
+      popupProductPrice.textContent = product.price;
+      popupProductId.value = product.id;
+      popupAddToCartForm.style.display = "block";  // Show the add to cart form
+    } else {
+      // Hide product details if no product is assigned
+      popupProductTitle.textContent = "Product not available";
+      popupProductPrice.textContent = "";
+      popupProductId.value = "";
+      popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+    }
     popupVideo.play();
   }
 
