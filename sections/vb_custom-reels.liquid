@@ -547,9 +547,17 @@ function openPopup(videoElement) {
   const popup = document.getElementById("reelPopup");
   const popupVideo = document.getElementById("popupVideo");
   const popupLogo = document.getElementById("popupLogo");
-  const productTitleElement = document.querySelector(".popup-product-title");
-  const productPriceElement = document.querySelector(".popup-product-price");
-  const addToCartInput = document.querySelector(".popup-add-to-cart-form input[name='id']");
+  const reelWrapper = videoElement.closest(".swiper-slide");
+  const productInfo = reelWrapper.querySelector(".product-info");
+  const productTitle = productInfo.querySelector("h3").textContent;
+  const productPrice = productInfo.querySelector(".product-price").textContent;
+  const productId = productInfo.querySelector('input[name="id"]').value;
+  document.getElementById("popupVideo").src = videoElement.src;
+  document.querySelector(".popup-product-title").textContent = productTitle;
+  document.querySelector(".popup-product-price").textContent = productPrice;
+  const popupForm = document.querySelector(".popup-add-to-cart-form");
+  popupForm.querySelector('input[name="id"]').value = productId;
+  document.getElementById("reelPopup").style.display = "block";
   popupVideo.src = videoElement.src;
   popupLogo.src = "{{ section.settings.logo_url }}";
   popup.classList.add("active");
@@ -562,6 +570,7 @@ function closePopup() {
   popup.classList.remove("active");
   popupVideo.pause();
   popupVideo.src = "";
+  document.getElementById("reelPopup").style.display = "none";
 }
 
 function toggleMute() {
