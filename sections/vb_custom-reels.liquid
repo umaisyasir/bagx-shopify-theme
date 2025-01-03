@@ -44,6 +44,8 @@
       <div class="product_main-details">
         <h3 id="popupProductTitle">Loading...</h3>
         <p id="popupProductPrice"></p>
+        <a id="popupProductLink" href="" target="_blank">View Product</a> <!-- Added product link -->
+        <img id="popupProductImage" src="" alt="Product Image" class="popup-product-image"> <!-- Added product image -->
       </div>
       <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" id="popupProductId">
@@ -554,12 +556,16 @@
         const productTitle = slide.querySelector(".product-info h3");
         const productPrice = slide.querySelector(".product-info .product-price");
         const productId = slide.querySelector("form input[name='id']").value;
+        const productLink = slide.querySelector(".product-info a").href;  // Get product link
+        const productImage = slide.querySelector(".product-info img").src;  // Get product image
 
         if (productTitle && productPrice) {
           productDetails.push({
             title: productTitle.textContent,
             price: productPrice.textContent,
             id: productId,
+            link: productLink,  // Store the product link
+            image: productImage,  // Store the product image
             videoSrc: videoSrc,
             hasProduct: true
           });
@@ -596,6 +602,8 @@
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
+    const popupProductLink = document.getElementById("popupProductLink"); // Product link element
+    const popupProductImage = document.getElementById("popupProductImage"); // Product image element
 
     const reelWrapper = videoElement.closest(".swiper-slide");
     currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
@@ -609,12 +617,18 @@
       // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
+      popupProductLink.href = product.link;  // Set product link
+      popupProductLink.textContent = "View Product";  // Set link text
+      popupProductImage.src = product.image;  // Set product image
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
+      popupProductLink.href = "#";  // Disable link
+      popupProductLink.textContent = "";  // Clear link text
+      popupProductImage.src = "";  // Clear product image
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
     }
@@ -696,6 +710,8 @@
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupProductId = document.getElementById("popupProductId");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
+    const popupProductLink = document.getElementById("popupProductLink");
+    const popupProductImage = document.getElementById("popupProductImage");
 
     const product = productDetails[currentVideoIndex];
 
@@ -705,12 +721,18 @@
       // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
+      popupProductLink.href = product.link;
+      popupProductLink.textContent = "View Product";
+      popupProductImage.src = product.image;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
+      popupProductLink.href = "#";
+      popupProductLink.textContent = "";
+      popupProductImage.src = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
     }
