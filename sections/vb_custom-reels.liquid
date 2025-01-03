@@ -622,6 +622,7 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
+      document.querySelector(".popup-product-details").style.display = "block"; // Show the product details section
 
       // Set the product image in the popup
       const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
@@ -632,6 +633,7 @@
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      document.querySelector(".popup-product-details").style.display = "none"; // Hide the product details section
 
       // Set a default image in the popup if no product
       popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
@@ -718,16 +720,14 @@
 
     const product = productDetails[currentVideoIndex];
 
-    // Update video source, ensuring it has a fallback
+    // Check if video source is valid; fallback if undefined
     popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
-
     if (product.hasProduct) {
       // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
-      document.querySelector(".popup-product-details").style.display = "block"; // Ensure the product details section is visible
 
       // Set the product image in the popup
       const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
@@ -743,7 +743,6 @@
       // Set a default image in the popup if no product
       popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
     }
-
     popupVideo.play();
   }
 
