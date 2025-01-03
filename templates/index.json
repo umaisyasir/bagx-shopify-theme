@@ -649,7 +649,7 @@
         "tablet_slides": "3",
         "mobile_slides": "2",
         "show_product_info": true,
-        "show_product_details": false
+        "show_product_details": true
       }
     },
     "fa515e3a-82ed-4658-b1f6-7f61c02cb69c": {
