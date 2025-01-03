@@ -553,11 +553,13 @@
         const productTitle = slide.querySelector(".product-info h3");
         const productPrice = slide.querySelector(".product-info .product-price");
         const productId = slide.querySelector("form input[name='id']").value;
+        const productImage = slide.querySelector(".product-info img"); // Added for product image
 
-        if (productTitle && productPrice) {
+        if (productTitle && productPrice && productImage) {
           productDetails.push({
             title: productTitle.textContent,
             price: productPrice.textContent,
+            imageUrl: productImage.src,
             id: productId,
             videoSrc: videoSrc,
             hasProduct: true
