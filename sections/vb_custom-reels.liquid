@@ -747,13 +747,13 @@
       },
       breakpoints: {
         1024: {
-          slidesPerView: 5,
+          slidesPerView: {{ section.settings.laptop-pc_slides }},
         },
         768: {
-          slidesPerView: 2,
+          slidesPerView: {{ section.settings.tablet_slides }},
         },
         480: {
-          slidesPerView: 2,
+          slidesPerView: {{ section.settings.mobile_slides }},
         }
       },
       loop: false,
@@ -774,6 +774,21 @@
       "type": "text",
       "id": "arrows_position",
       "label": "Arrows Position"
+    },
+    {
+      "type": "text",
+      "id": "laptop-pc_slides",
+      "label": "Laptop/PC Slides"
+    },
+    {
+      "type": "text",
+      "id": "tablet_slides",
+      "label": "Tablet Slides"
+    },
+    {
+      "type": "text",
+      "id": "mobile_slides",
+      "label": "Mobile Slides"
     }
   ],
   "blocks": [
