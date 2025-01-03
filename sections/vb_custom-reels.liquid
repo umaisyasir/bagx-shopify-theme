@@ -42,7 +42,7 @@
     <video id="popupVideo" autoplay muted loop></video>
     <div class="popup-product-details" id="popupProductDetails">
       <div class="product_main-details">
-        <a href="{{ product.link }}" id="popupProductLink">
+        <a href="" id="popupProductLink">
           <h3 id="popupProductTitle">Loading...</h3>
           <p id="popupProductPrice"></p>
         </a>
@@ -573,7 +573,7 @@
 
       if (productHandle) {
         const productTitle = slide.querySelector(".product-info h3");
-        const productPrice = slide.querySelector(".product-info .product-price");
+        const productPrice = slide.querySelector(".product-info .product-price ");
         const productId = slide.querySelector("form input[name='id']").value;
 
         if (productTitle && productPrice) {
@@ -615,9 +615,11 @@
     const popupLogo = document.getElementById("popupLogo");
     const popupProductTitle = document.getElementById("popupProductTitle");
     const popupProductPrice = document.getElementById("popupProductPrice");
+    const popupProductLink = document.getElementById("popupProductLink");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
-
+    const videoIndex = Array.from(document.querySelectorAll("video")).indexOf(videoElement);
+    const productDetail = productDetails[videoIndex];
     const reelWrapper = videoElement.closest(".swiper-slide");
     currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
     const product = productDetails[currentVideoIndex];
@@ -630,13 +632,19 @@
       // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
+      popupProductLink.setAttribute("href", `/products/${productDetail.id}`);
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";
       popupProductDetails.style.display = "block";
+      const product = all_products[productDetail.id];
+      if (product && product.featured_image) {
+        popupLogo.src = product.featured_image.src;
+      }
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
+      popupProductLink.setAttribute("href", "#");
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
       popupProductDetails.style.display = "none";
