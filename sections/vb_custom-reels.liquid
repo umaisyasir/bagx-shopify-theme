@@ -545,7 +545,8 @@
     const popupVideo = document.getElementById("popupVideo");
     const popupLogo = document.getElementById("popupLogo");
     const reelWrapper = videoElement.closest(".swiper-slide");
-    const productInfo = reelWrapper.querySelector(".product-info");
+    
+    // Get the product handle from the current reel
     const productHandle = reelWrapper.getAttribute("data-product-handle");
   
     // Set the video source for the popup
@@ -557,18 +558,27 @@
     // Set the current video index based on the clicked slide
     currentVideoIndex = Array.from(videoElement.closest('.swiper-slide').parentElement.children).indexOf(videoElement.closest('.swiper-slide'));
   
-    // Populate product details if productHandle exists
+    // Fetch the product using the product handle and display in the popup
     if (productHandle) {
+      // Fetch the product from the global all_products array
       const product = {{ all_products | json }}[productHandle];
+      
       if (product) {
+        // Populate the popup with product details
         document.querySelector(".popup-product-title").textContent = product.title;
         document.querySelector(".popup-product-price").textContent = product.price | money;
         document.querySelector(".popup-add-to-cart-form input[name='id']").value = product.variants[0].id;
       } else {
+        // If the product isn't found, show a default message
         document.querySelector(".popup-product-title").textContent = "Product not available";
         document.querySelector(".popup-product-price").textContent = "";
         document.querySelector(".popup-add-to-cart-form input[name='id']").value = "";
       }
+    } else {
+      // If no product handle is available, show default message
+      document.querySelector(".popup-product-title").textContent = "Product not available";
+      document.querySelector(".popup-product-price").textContent = "";
+      document.querySelector(".popup-add-to-cart-form input[name='id']").value = "";
     }
   
     popup.classList.add("active");
@@ -689,7 +699,7 @@
       }
     });
   });
-  </script>  
+  </script>    
 
 {% schema %}
 {
