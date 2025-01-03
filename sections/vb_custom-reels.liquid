@@ -527,16 +527,34 @@
 
 
 <script>
-  function repeatVideo(videoElement) {
-    videoElement.currentTime = 0;  // Restart the video
-    videoElement.play();            // Play the video again
+  let currentVideoIndex = 0;
+  let productDetails = [];
+
+  // Initialize product details and video elements
+  function initializeProductDetails() {
+    const slides = document.querySelectorAll(".swiper-slide");
+    slides.forEach((slide, index) => {
+      const productHandle = slide.getAttribute("data-product-handle");
+      if (productHandle) {
+        const productTitle = slide.querySelector(".product-info h3");
+        const productPrice = slide.querySelector(".product-info .product-price");
+        const productId = slide.querySelector("form input[name='id']").value;
+
+        if (productTitle && productPrice) {
+          productDetails.push({
+            title: productTitle.textContent,
+            price: productPrice.textContent,
+            id: productId,
+            videoSrc: slide.querySelector("video").src,
+          });
+        }
+      }
+    });
   }
 
-  function playMainVideo(frontVideo) {
-    const mainVideo = frontVideo.nextElementSibling;
-    frontVideo.classList.add("hidden");
-    mainVideo.classList.remove("hidden");
-    mainVideo.play();
+  function repeatVideo(videoElement) {
+    videoElement.currentTime = 0;
+    videoElement.play();
   }
 
   function openPopup(videoElement) {
@@ -549,30 +567,16 @@
     const popupProductId = document.getElementById("popupProductId");
 
     const reelWrapper = videoElement.closest(".swiper-slide");
-    const productHandle = reelWrapper.getAttribute("data-product-handle");
+    currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
+    const product = productDetails[currentVideoIndex];
 
-    // Set video and logo
-    popupVideo.src = videoElement.src;
+    popupVideo.src = product.videoSrc;
     popupLogo.src = "{{ section.settings.logo_url }}";
-
-    // Fetch product details from the reel-wrapper
-    const productTitle = reelWrapper.querySelector(".product-info h3");
-    const productPrice = reelWrapper.querySelector(".product-info .product-price");
-    const productId = reelWrapper.querySelector("form input[name='id']").value;
-
-    // Check if the product info exists in the reel-wrapper
-    if (productTitle && productPrice) {
-      popupProductTitle.textContent = productTitle.textContent;
-      popupProductPrice.textContent = productPrice.textContent;
-      popupProductId.value = productId; // Set the product variant ID
-    } else {
-      popupProductTitle.textContent = "Product not available";
-      popupProductPrice.textContent = "";
-      popupProductId.value = "";
-    }
+    popupProductTitle.textContent = product.title;
+    popupProductPrice.textContent = product.price;
+    popupProductId.value = product.id;
 
     popup.classList.add("active");
-    currentVideoIndex = Array.from(videoElement.closest('.swiper-slide').parentElement.children).indexOf(videoElement.closest('.swiper-slide'));
   }
 
   function closePopup() {
@@ -629,31 +633,38 @@
     popup.classList.toggle("bottom_rightwidth");
   }
 
-  let currentVideoIndex = 0;
-
   function nextVideo() {
-    const slides = document.querySelectorAll(".swiper-slide");
-    if (currentVideoIndex < slides.length - 1) {
+    if (currentVideoIndex < productDetails.length - 1) {
       currentVideoIndex++;
-      const nextVideo = slides[currentVideoIndex].querySelector("video");
-      const popupVideo = document.getElementById("popupVideo");
-      popupVideo.src = nextVideo.src;
-      popupVideo.play();
+      updatePopupContent();
     }
   }
 
   function prevVideo() {
     if (currentVideoIndex > 0) {
       currentVideoIndex--;
-      const slides = document.querySelectorAll(".swiper-slide");
-      const prevVideo = slides[currentVideoIndex].querySelector("video");
-      const popupVideo = document.getElementById("popupVideo");
-      popupVideo.src = prevVideo.src;
-      popupVideo.play();
+      updatePopupContent();
     }
   }
 
+  function updatePopupContent() {
+    const popupVideo = document.getElementById("popupVideo");
+    const popupProductTitle = document.getElementById("popupProductTitle");
+    const popupProductPrice = document.getElementById("popupProductPrice");
+    const popupProductId = document.getElementById("popupProductId");
+
+    const product = productDetails[currentVideoIndex];
+
+    popupVideo.src = product.videoSrc;
+    popupProductTitle.textContent = product.title;
+    popupProductPrice.textContent = product.price;
+    popupProductId.value = product.id;
+    popupVideo.play();
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    initializeProductDetails();
+
     const swiper = new Swiper(".swiper-container", {
       slidesPerView: 2,
       spaceBetween: 20,
@@ -673,25 +684,6 @@
         }
       },
       loop: true,
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    // Select all the swiper-slide blocks
-    const blocks = document.querySelectorAll(".swiper-slide");
-
-    blocks.forEach(function(block) {
-      // Get the product handle from the data attribute
-      const productHandle = block.getAttribute("data-product-handle");
-
-      // If no product handle is set, hide the product info section
-      if (!productHandle) {
-        // Find the product-info section and hide it
-        const productInfo = block.querySelector(".product-info");
-        if (productInfo) {
-          productInfo.style.display = "none";
-        }
-      }
     });
   });
 </script>
