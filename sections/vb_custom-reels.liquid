@@ -40,7 +40,7 @@
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
-    <div class="popup-product-details">
+    <div class="popup-product-details" style="display: none;">
       <div class="product_main-details">
         <img id="popupProductImage" class="popupProductImage" src="" alt="Product Image" />
         <h3 id="popupProductTitle">Loading...</h3>
@@ -536,6 +536,18 @@
 </style>
 
 
+<div class="popup-product-details" style="display: none;">
+  <div class="product_main-details">
+    <img id="popupProductImage" class="popupProductImage" src="" alt="Product Image" />
+    <h3 id="popupProductTitle">Loading...</h3>
+    <p id="popupProductPrice"></p>
+  </div>
+  <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="popupProductId">
+    <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+  </form>
+</div>
+
 <script>
   let currentVideoIndex = 0;
   let productDetails = [];
@@ -610,6 +622,7 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
+      document.querySelector(".popup-product-details").style.display = "block"; // Show the product details section
 
       // Set the product image in the popup
       const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
@@ -620,6 +633,7 @@
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      document.querySelector(".popup-product-details").style.display = "none"; // Hide the product details section
 
       // Set a default image in the popup if no product
       popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
@@ -724,6 +738,7 @@
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      document.querySelector(".popup-product-details").style.display = "none"; // Hide the product details section
 
       // Set a default image in the popup if no product
       popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
@@ -756,6 +771,7 @@
     });
   });
 </script>
+
 
 {% schema %}
 {
