@@ -558,8 +558,8 @@
     slides.forEach((slide, index) => {
       const productHandle = slide.getAttribute("data-product-handle");
       const productInfo = slide.querySelector(".product-info");
-      const videoElement = slide.querySelector("video");
-      
+
+      const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
       const productTitle = slide.querySelector(".product-info h3");
       const productPrice = slide.querySelector(".product-info .product-price");
       const productId = slide.querySelector("form input[name='id']") ? slide.querySelector("form input[name='id']").value : null;
@@ -570,8 +570,8 @@
           title: productTitle.textContent,
           price: productPrice.textContent,
           id: productId,
-          videoSrc: videoElement ? videoElement.src : null,
-          imageUrl: productImage ? productImage.src : "{{ section.settings.default_product_image_url }}", // Fallback image
+          videoSrc: videoSrc,
+          imageUrl: productImage ? productImage.src : "{{ section.settings.default_product_image_url }}", // Ensure fallback for missing images
           hasProduct: true
         });
 
@@ -583,7 +583,7 @@
         // If no product handle exists, mark it as no product and hide product info
         productDetails.push({
           hasProduct: false,
-          videoSrc: videoElement ? videoElement.src : "{{ section.settings.default_video_url }}" // Fallback video
+          videoSrc: videoSrc || "{{ section.settings.default_video_url }}" // Assign a fallback video if no product handle
         });
 
         if (productInfo) {
@@ -593,7 +593,11 @@
     });
   }
 
-  // Open the popup with video and product details
+  function repeatVideo(videoElement) {
+    videoElement.currentTime = 0;
+    videoElement.play();
+  }
+
   function openPopup(videoElement) {
     const popup = document.getElementById("reelPopup");
     const popupVideo = document.getElementById("popupVideo");
@@ -602,39 +606,40 @@
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
-    const popupProductImage = document.getElementById("popupProductImage");
+    const popupProductImage = document.getElementById("popupProductImage"); // Get the popup image element
 
     const reelWrapper = videoElement.closest(".swiper-slide");
     currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
     const product = productDetails[currentVideoIndex];
 
-    // Update video and product info in popup
-    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; // Fallback video if missing
-    popupLogo.src = "{{ section.settings.logo_url }}"; // Logo image
+    // Check if video source is valid; fallback if undefined
+    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
+    popupLogo.src = "{{ section.settings.logo_url }}";
 
     if (product.hasProduct) {
-      // Display product details
+      // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
-      popupAddToCartForm.style.display = "block"; // Show the add to cart form
-      popupProductImage.src = product.imageUrl; // Set the product image
-      document.querySelector(".popup-product-details").style.display = "block"; // Ensure product details are visible
+      popupAddToCartForm.style.display = "block";  // Show the add to cart form
+
+      // Set the product image in the popup
+      const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
+      popupProductImage.src = productImageUrl;
     } else {
-      // Show "Product not available" if no product data
+      // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
-      popupAddToCartForm.style.display = "none"; // Hide the add to cart form
-      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; // Default image
-      document.querySelector(".popup-product-details").style.display = "none"; // Hide product details
+      popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+
+      // Set a default image in the popup if no product
+      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
     }
 
     popup.classList.add("active");
-    popupVideo.play();
   }
 
-  // Close the popup
   function closePopup() {
     const popup = document.getElementById("reelPopup");
     const popupVideo = document.getElementById("popupVideo");
@@ -643,7 +648,6 @@
     popupVideo.src = "";
   }
 
-  // Mute/unmute video
   function toggleMute() {
     const popupVideo = document.getElementById("popupVideo");
     const muteToggle = document.querySelector(".popup-mute");
@@ -656,7 +660,6 @@
     }
   }
 
-  // Toggle fullscreen mode
   function toggleFullscreen() {
     const popupVideo = document.getElementById("popupVideo");
     if (popupVideo.requestFullscreen) {
@@ -668,7 +671,6 @@
     }
   }
 
-  // Share video
   function shareVideo() {
     const popupVideo = document.getElementById("popupVideo");
     const videoUrl = popupVideo.src;
@@ -685,7 +687,13 @@
     }
   }
 
-  // Navigate to next video
+  function togglePosition() {
+    const popupContent = document.querySelector(".popup-content");
+    const popup = document.getElementById("reelPopup");
+    popupContent.classList.toggle("video-bottom-right");
+    popup.classList.toggle("bottom_rightwidth");
+  }
+
   function nextVideo() {
     if (currentVideoIndex < productDetails.length - 1) {
       currentVideoIndex++;
@@ -693,7 +701,6 @@
     }
   }
 
-  // Navigate to previous video
   function prevVideo() {
     if (currentVideoIndex > 0) {
       currentVideoIndex--;
@@ -701,7 +708,6 @@
     }
   }
 
-  // Update the popup content based on the current video index
   function updatePopupContent() {
     const popupVideo = document.getElementById("popupVideo");
     const popupProductTitle = document.getElementById("popupProductTitle");
@@ -712,28 +718,58 @@
 
     const product = productDetails[currentVideoIndex];
 
-    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; // Fallback video
+    // Update video source, ensuring it has a fallback
+    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
 
     if (product.hasProduct) {
+      // Show product details
       popupProductTitle.textContent = product.title;
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
-      popupAddToCartForm.style.display = "block"; // Show Add to Cart form
-      popupProductImage.src = product.imageUrl; // Set product image in popup
+      popupAddToCartForm.style.display = "block";  // Show the add to cart form
+      document.querySelector(".popup-product-details").style.display = "block"; // Ensure the product details section is visible
+
+      // Set the product image in the popup
+      const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
+      popupProductImage.src = productImageUrl;
     } else {
+      // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
-      popupAddToCartForm.style.display = "none"; // Hide Add to Cart form
-      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; // Default image
+      popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      document.querySelector(".popup-product-details").style.display = "none"; // Hide the product details section
+
+      // Set a default image in the popup if no product
+      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
     }
 
     popupVideo.play();
   }
 
-  // Initialize product details on page load
   document.addEventListener("DOMContentLoaded", function () {
     initializeProductDetails();
+
+    const swiper = new Swiper(".swiper-container", {
+      slidesPerView: 2,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 5,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        480: {
+          slidesPerView: 2,
+        }
+      },
+      loop: true,
+    });
   });
 </script>
 
