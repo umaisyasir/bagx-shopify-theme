@@ -723,12 +723,14 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
+      popupProductTitle.style.display = "block";
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      popupProductTitle.style.display = "none";
     }
     popupVideo.play();
   }
