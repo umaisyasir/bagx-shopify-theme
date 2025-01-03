@@ -764,19 +764,6 @@
       loop: false,
     });
   });
-
-  document.addEventListener("DOMContentLoaded", function() {
-    var showProductInfo = {{ section.settings.show_product_info | json }};
-    var showProductDetails = {{ section.settings.show_product_details | json }};
-  
-    if (!showProductInfo) {
-      document.querySelector('.product-info').style.display = 'none';
-    }
-  
-    if (!showProductDetails) {
-      document.querySelector('.product-details').style.display = 'none';
-    }
-  });
 </script>
 
 {% schema %}
