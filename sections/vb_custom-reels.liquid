@@ -42,10 +42,8 @@
     <video id="popupVideo" autoplay muted loop></video>
     <div class="popup-product-details" id="popupProductDetails">
       <div class="product_main-details">
-        <a href="" id="popupProductLink">
-          <h3 id="popupProductTitle">Loading...</h3>
-          <p id="popupProductPrice"></p>
-        </a>
+        <h3 id="popupProductTitle">Loading...</h3>
+        <p id="popupProductPrice"></p>
       </div>
       <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" id="popupProductId">
@@ -573,7 +571,7 @@
 
       if (productHandle) {
         const productTitle = slide.querySelector(".product-info h3");
-        const productPrice = slide.querySelector(".product-info .product-price ");
+        const productPrice = slide.querySelector(".product-info .product-price");
         const productId = slide.querySelector("form input[name='id']").value;
 
         if (productTitle && productPrice) {
