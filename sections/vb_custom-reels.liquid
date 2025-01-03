@@ -568,6 +568,7 @@
     slides.forEach((slide, index) => {
       const productHandle = slide.getAttribute("data-product-handle");
       const productInfo = slide.querySelector(".product-info");
+
       const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
 
       if (productHandle) {
@@ -608,7 +609,6 @@
     videoElement.play();
   }
 
-  // Open popup with product details and video
   function openPopup(videoElement) {
     const popup = document.getElementById("reelPopup");
     const popupVideo = document.getElementById("popupVideo");
@@ -618,25 +618,24 @@
     const popupProductLink = document.getElementById("popupProductLink");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
-    const popupProductDetails = document.getElementById("popupProductDetails");
-
     const videoIndex = Array.from(document.querySelectorAll("video")).indexOf(videoElement);
     const productDetail = productDetails[videoIndex];
+    const reelWrapper = videoElement.closest(".swiper-slide");
+    currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
+    const product = productDetails[currentVideoIndex];
 
     // Check if video source is valid; fallback if undefined
-    popupVideo.src = productDetail.videoSrc || "{{ section.settings.default_video_url }}"; 
+    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
     popupLogo.src = "{{ section.settings.logo_url }}";
 
-    if (productDetail.hasProduct) {
-      // Show product details in the popup
-      popupProductTitle.textContent = productDetail.title;
-      popupProductPrice.textContent = productDetail.price;
+    if (product.hasProduct) {
+      // Show product details
+      popupProductTitle.textContent = product.title;
+      popupProductPrice.textContent = product.price;
       popupProductLink.setAttribute("href", `/products/${productDetail.id}`);
-      popupProductId.value = productDetail.id;
+      popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";
       popupProductDetails.style.display = "block";
-      
-      // Fetch product image (optional)
       const product = all_products[productDetail.id];
       if (product && product.featured_image) {
         popupLogo.src = product.featured_image.src;
@@ -739,27 +738,20 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
+      popupProductDetails.style.display = "block";
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
+      popupProductDetails.style.display = "none";
     }
     popupVideo.play();
   }
 
-  // Add event listener to make each video clickable
   document.addEventListener("DOMContentLoaded", function () {
     initializeProductDetails();
-
-    // Add event listeners to video elements inside swiper slides
-    const videos = document.querySelectorAll(".swiper-slide video");
-    videos.forEach(video => {
-      video.addEventListener("click", function () {
-        openPopup(video);
-      });
-    });
 
     const swiper = new Swiper(".swiper-container", {
       slidesPerView: 2,
@@ -783,7 +775,6 @@
     });
   });
 </script>
-
 
 {% schema %}
 {
