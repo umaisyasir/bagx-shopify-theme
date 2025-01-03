@@ -719,6 +719,49 @@ function openPopup(videoElement) {
   // Show the popup
   document.getElementById("reelPopup").style.display = "block";
 }
+
+function closePopup() {
+  // Close the popup
+  document.getElementById("reelPopup").style.display = "none";
+}
+
+function toggleMute() {
+  const video = document.getElementById("popupVideo");
+  video.muted = !video.muted;
+  document.querySelector(".popup-mute").classList.toggle("fa-volume-up", !video.muted);
+  document.querySelector(".popup-mute").classList.toggle("fa-volume-mute", video.muted);
+}
+
+function toggleFullscreen() {
+  const video = document.getElementById("popupVideo");
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) {
+    video.msRequestFullscreen();
+  }
+}
+
+function prevVideo() {
+  // Navigate to the previous video in the popup
+  console.log("Previous video navigation not yet implemented.");
+}
+
+function nextVideo() {
+  // Navigate to the next video in the popup
+  console.log("Next video navigation not yet implemented.");
+}
+
+function shareVideo() {
+  // Share video logic
+  console.log("Sharing functionality not yet implemented.");
+}
+
+function togglePosition() {
+  // Toggle video position in the popup
+  console.log("Position toggle functionality not yet implemented.");
+}
 </script>
 
 {% schema %}
