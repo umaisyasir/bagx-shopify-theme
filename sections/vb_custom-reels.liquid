@@ -625,7 +625,6 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";
-      popupProductTitle.style.display = "block";
       popupProductDetails.style.display = "block";
     } else {
       // Show "Product not available" when there's no product
@@ -633,7 +632,6 @@
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
-      popupProductTitle.style.display = "none";
       popupProductDetails.style.display = "none";
     }
 
@@ -725,7 +723,6 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
-      popupProductTitle.style.display = "block";
       popupProductDetails.style.display = "block";
     } else {
       // Show "Product not available" when there's no product
@@ -733,7 +730,6 @@
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
-      popupProductTitle.style.display = "none";
       popupProductDetails.style.display = "none";
     }
     popupVideo.play();
