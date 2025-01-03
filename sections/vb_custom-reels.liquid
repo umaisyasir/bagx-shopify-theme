@@ -41,13 +41,21 @@
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
     <div class="popup-product-details">
+      <!-- Product Image -->
+      <div class="popup-product-image-wrapper">
+        <img id="popupProductImage" src="" alt="Product Image" class="popup-product-image" />
+      </div>
+    
+      <!-- Product Title and Price -->
       <h3 id="popupProductTitle">Loading...</h3>
       <p id="popupProductPrice"></p>
+    
+      <!-- Add to Cart Form -->
       <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" id="popupProductId">
         <button type="submit" class="popup-add-to-cart">Add to Cart</button>
       </form>
-    </div>
+    </div>    
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
       <button class="popup-next fas fa-chevron-right" onclick="nextVideo()"></button>
@@ -538,6 +546,7 @@
       const productInfo = slide.querySelector(".product-info");
 
       const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
+      const productImage = slide.querySelector(".product-image img") ? slide.querySelector(".product-image img").src : null; // Get the product image
 
       if (productHandle) {
         const productTitle = slide.querySelector(".product-info h3");
@@ -550,6 +559,7 @@
             price: productPrice.textContent,
             id: productId,
             videoSrc: videoSrc,
+            imageSrc: productImage, // Store the product image
             hasProduct: true
           });
         }
@@ -562,7 +572,8 @@
         // If no product handle exists, mark it as no product and hide product info
         productDetails.push({
           hasProduct: false,
-          videoSrc: videoSrc || "{{ section.settings.default_video_url }}" // Assign a fallback video if no product handle
+          videoSrc: videoSrc || "{{ section.settings.default_video_url }}",
+          imageSrc: productImage || "{{ section.settings.default_image_url }}" // Assign fallback image if no product handle
         });
 
         if (productInfo) {
@@ -583,6 +594,7 @@
     const popupLogo = document.getElementById("popupLogo");
     const popupProductTitle = document.getElementById("popupProductTitle");
     const popupProductPrice = document.getElementById("popupProductPrice");
+    const popupProductImage = document.getElementById("popupProductImage"); // For product image
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
 
@@ -593,6 +605,9 @@
     // Check if video source is valid; fallback if undefined
     popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
     popupLogo.src = "{{ section.settings.logo_url }}";
+
+    // Check if product image is valid; fallback if undefined
+    popupProductImage.src = product.imageSrc || "{{ section.settings.default_image_url }}";
 
     if (product.hasProduct) {
       // Show product details
@@ -683,6 +698,7 @@
     const popupVideo = document.getElementById("popupVideo");
     const popupProductTitle = document.getElementById("popupProductTitle");
     const popupProductPrice = document.getElementById("popupProductPrice");
+    const popupProductImage = document.getElementById("popupProductImage"); // For product image
     const popupProductId = document.getElementById("popupProductId");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
 
@@ -690,6 +706,10 @@
 
     // Check if video source is valid; fallback if undefined
     popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
+
+    // Check if product image is valid; fallback if undefined
+    popupProductImage.src = product.imageSrc || "{{ section.settings.default_image_url }}";
+
     if (product.hasProduct) {
       // Show product details
       popupProductTitle.textContent = product.title;
