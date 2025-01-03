@@ -535,6 +535,8 @@
     const slides = document.querySelectorAll(".swiper-slide");
     slides.forEach((slide, index) => {
       const productHandle = slide.getAttribute("data-product-handle");
+      const productInfo = slide.querySelector(".product-info");
+
       if (productHandle) {
         const productTitle = slide.querySelector(".product-info h3");
         const productPrice = slide.querySelector(".product-info .product-price");
@@ -549,11 +551,20 @@
             hasProduct: true
           });
         }
+
+        // Show product info if product handle exists
+        if (productInfo) {
+          productInfo.style.display = "block";
+        }
       } else {
-        // If no product handle exists, mark it as no product
+        // If no product handle exists, mark it as no product and hide product info
         productDetails.push({
           hasProduct: false
         });
+
+        if (productInfo) {
+          productInfo.style.display = "none"; // Hides the product details
+        }
       }
     });
   }
