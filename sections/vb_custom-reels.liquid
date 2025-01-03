@@ -568,7 +568,6 @@
     slides.forEach((slide, index) => {
       const productHandle = slide.getAttribute("data-product-handle");
       const productInfo = slide.querySelector(".product-info");
-
       const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
 
       if (productHandle) {
@@ -618,24 +617,25 @@
     const popupProductLink = document.getElementById("popupProductLink");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
+    const popupProductDetails = document.getElementById("popupProductDetails");
+
     const videoIndex = Array.from(document.querySelectorAll("video")).indexOf(videoElement);
     const productDetail = productDetails[videoIndex];
-    const reelWrapper = videoElement.closest(".swiper-slide");
-    currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
-    const product = productDetails[currentVideoIndex];
 
     // Check if video source is valid; fallback if undefined
-    popupVideo.src = product.videoSrc || "{{ section.settings.default_video_url }}"; 
+    popupVideo.src = productDetail.videoSrc || "{{ section.settings.default_video_url }}"; 
     popupLogo.src = "{{ section.settings.logo_url }}";
 
-    if (product.hasProduct) {
+    if (productDetail.hasProduct) {
       // Show product details
-      popupProductTitle.textContent = product.title;
-      popupProductPrice.textContent = product.price;
+      popupProductTitle.textContent = productDetail.title;
+      popupProductPrice.textContent = productDetail.price;
       popupProductLink.setAttribute("href", `/products/${productDetail.id}`);
-      popupProductId.value = product.id;
+      popupProductId.value = productDetail.id;
       popupAddToCartForm.style.display = "block";
       popupProductDetails.style.display = "block";
+      
+      // Fetch product image (optional)
       const product = all_products[productDetail.id];
       if (product && product.featured_image) {
         popupLogo.src = product.featured_image.src;
@@ -738,14 +738,12 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
-      popupProductDetails.style.display = "block";
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
-      popupProductDetails.style.display = "none";
     }
     popupVideo.play();
   }
@@ -775,6 +773,7 @@
     });
   });
 </script>
+
 
 {% schema %}
 {
