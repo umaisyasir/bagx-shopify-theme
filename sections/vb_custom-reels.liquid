@@ -120,6 +120,11 @@
   border-radius: 5px;
   margin-top: 10px;
   cursor: pointer;
+  margin-top: 0;
+}
+
+.product_main-details p#popupProductPrice {
+  margin-bottom: 0;
 }
 
 .popup-add-to-cart:hover {
@@ -413,7 +418,13 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, -15%);
+  transform: translate(-50%, -5%);
+  display: flex;
+  background: white;
+  padding: 12px;
+  column-gap: 80px;
+  border-radius: 10px;
+  align-items: center;
 }
 
 .popup-content.video-bottom-right .popup-controls {
