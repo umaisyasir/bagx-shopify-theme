@@ -13,18 +13,16 @@
             {% if reel.settings.product_handle %}
               {% assign product = all_products[reel.settings.product_handle] %}
               {% if product %}
-                {% if section.settings.show_product_info %}
-                  <div class="product-info">
-                    <h3>{{ product.title }}</h3>
-                    <p class="product-price">{{ product.price | money }}</p>
+                <div class="product-info">
+                  <h3>{{ product.title }}</h3>
+                  <p class="product-price">{{ product.price | money }}</p>
 
-                    <!-- Add to Cart Form -->
-                    <form action="/cart/add" method="post" enctype="multipart/form-data">
-                      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                      <button type="submit" class="product-link">Add to Cart</button>
-                    </form>
-                  </div>
-                {% endif %}
+                  <!-- Add to Cart Form -->
+                  <form action="/cart/add" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    <button type="submit" class="product-link">Add to Cart</button>
+                  </form>
+                </div>
               {% else %}
                 <p>Product not available.</p>
               {% endif %}
@@ -42,19 +40,16 @@
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
-
-    {% if section.settings.show_product_details %}
-      <div class="popup-product-details" id="popupProductDetails">
-        <div class="product_main-details">
-          <h3 id="popupProductTitle">Loading...</h3>
-          <p id="popupProductPrice"></p>
-        </div>
-        <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="id" id="popupProductId">
-          <button type="submit" class="popup-add-to-cart">Add to Cart</button>
-        </form>
+    <div class="popup-product-details" id="popupProductDetails">
+      <div class="product_main-details">
+        <h3 id="popupProductTitle">Loading...</h3>
+        <p id="popupProductPrice"></p>
       </div>
-    {% endif %}
+      <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" id="popupProductId">
+        <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+      </form>
+    </div>
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
       <button class="popup-next fas fa-chevron-right" onclick="nextVideo()"></button>
@@ -794,18 +789,6 @@
       "type": "text",
       "id": "mobile_slides",
       "label": "Mobile Slides"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_product_info",
-      "label": "Show Product Info",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_product_details",
-      "label": "Show Product Details",
-      "default": true
     }
   ],
   "blocks": [
