@@ -42,7 +42,6 @@
     <video id="popupVideo" autoplay muted loop></video>
     <div class="popup-product-details">
       <div class="product_main-details">
-        <img id="popupProductImage" class="popupProductImage" src="" alt="Product Image" />
         <h3 id="popupProductTitle">Loading...</h3>
         <p id="popupProductPrice"></p>
       </div>
@@ -406,7 +405,7 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, -10%);
+  transform: translate(-50%, -5%);
   display: flex;
   background: white;
   padding: 12px;
@@ -548,20 +547,21 @@
       const productInfo = slide.querySelector(".product-info");
 
       const videoSrc = slide.querySelector("video") ? slide.querySelector("video").src : null;
-      const productTitle = slide.querySelector(".product-info h3");
-      const productPrice = slide.querySelector(".product-info .product-price");
-      const productId = slide.querySelector("form input[name='id']") ? slide.querySelector("form input[name='id']").value : null;
-      const productImage = slide.querySelector(".product-info img");
 
-      if (productHandle && productTitle && productPrice) {
-        productDetails.push({
-          title: productTitle.textContent,
-          price: productPrice.textContent,
-          id: productId,
-          videoSrc: videoSrc,
-          imageUrl: productImage ? productImage.src : "{{ section.settings.default_product_image_url }}", // Ensure fallback for missing images
-          hasProduct: true
-        });
+      if (productHandle) {
+        const productTitle = slide.querySelector(".product-info h3");
+        const productPrice = slide.querySelector(".product-info .product-price");
+        const productId = slide.querySelector("form input[name='id']").value;
+
+        if (productTitle && productPrice) {
+          productDetails.push({
+            title: productTitle.textContent,
+            price: productPrice.textContent,
+            id: productId,
+            videoSrc: videoSrc,
+            hasProduct: true
+          });
+        }
 
         // Show product info if product handle exists
         if (productInfo) {
@@ -594,7 +594,6 @@
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
     const popupProductId = document.getElementById("popupProductId");
-    const popupProductImage = document.getElementById("popupProductImage"); // Get the popup image element
 
     const reelWrapper = videoElement.closest(".swiper-slide");
     currentVideoIndex = Array.from(reelWrapper.closest('.swiper-wrapper').children).indexOf(reelWrapper);
@@ -610,19 +609,12 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
-
-      // Set the product image in the popup
-      const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
-      popupProductImage.src = productImageUrl;
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
-
-      // Set a default image in the popup if no product
-      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
     }
 
     popup.classList.add("active");
@@ -702,7 +694,6 @@
     const popupProductPrice = document.getElementById("popupProductPrice");
     const popupProductId = document.getElementById("popupProductId");
     const popupAddToCartForm = document.getElementById("popupAddToCartForm");
-    const popupProductImage = document.getElementById("popupProductImage");
 
     const product = productDetails[currentVideoIndex];
 
@@ -714,19 +705,12 @@
       popupProductPrice.textContent = product.price;
       popupProductId.value = product.id;
       popupAddToCartForm.style.display = "block";  // Show the add to cart form
-
-      // Set the product image in the popup
-      const productImageUrl = product.imageUrl || "{{ section.settings.default_product_image_url }}"; // Fallback if image URL is not available
-      popupProductImage.src = productImageUrl;
     } else {
       // Show "Product not available" when there's no product
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
       popupProductId.value = "";
       popupAddToCartForm.style.display = "none";  // Hide the add to cart form
-
-      // Set a default image in the popup if no product
-      popupProductImage.src = "{{ section.settings.default_product_image_url }}"; 
     }
     popupVideo.play();
   }
