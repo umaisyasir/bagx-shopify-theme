@@ -1,1 +1,87 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{}},"application_form_nfQUPj":{"type":"application-form","blocks":{"job_dr4Ger":{"type":"job","settings":{"job_title":"Finance Manager","job_address":"6-A Waris Road","job_city":"Lahore","apply_link":"https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSdijg9D8GxC_BmIEuNrUGVrk758HFGMCPzmBYVfwsikpD5uHg\/viewform?usp=preview","open_new_tab":true}},"job_wHenr9":{"type":"job","settings":{"job_title":"Social Media Manager","job_address":"6-A Waris Road","job_city":"Lahore","apply_link":"https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSei_LUiUd5gOq6z6_Q56O3W4iOXz1GVxngRUFhBVkV2oFZnVQ\/viewform?usp=preview","open_new_tab":true}},"job_4pmnJc":{"type":"job","settings":{"job_title":"Digital Marketing Manager","job_address":"6-A Waris Road","job_city":"Lahore","apply_link":"https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSc_l1nK6GFIzsvNHH2MAhqyGPPWgEirk2bUasAabwWRd9YpZw\/viewform?usp=preview","open_new_tab":true}},"job_twaEhA":{"type":"job","settings":{"job_title":"HR Executive","job_address":"6-A Waris Road","job_city":"Lahore","apply_link":"https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLScfu76AY4eMzAZ-jI2Yx-boQHbUPcKUm_DEOAayhnMMWoqe6w\/viewform?usp=preview","open_new_tab":true}}},"block_order":["job_dr4Ger","job_wHenr9","job_4pmnJc","job_twaEhA"],"settings":{"job_section_heading":"Apply for a Job"}}},"order":["main","application_form_nfQUPj"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "application_form_nfQUPj": {
+      "type": "application-form",
+      "blocks": {
+        "job_dr4Ger": {
+          "type": "job",
+          "settings": {
+            "job_title": "Finance Manager",
+            "job_address": "6-A Waris Road",
+            "job_city": "Lahore",
+            "apply_link": "https://docs.google.com/forms/d/e/1FAIpQLSdijg9D8GxC_BmIEuNrUGVrk758HFGMCPzmBYVfwsikpD5uHg/viewform?usp=preview",
+            "open_new_tab": true
+          }
+        },
+        "job_wHenr9": {
+          "type": "job",
+          "settings": {
+            "job_title": "Social Media Manager",
+            "job_address": "6-A Waris Road",
+            "job_city": "Lahore",
+            "apply_link": "https://docs.google.com/forms/d/e/1FAIpQLSei_LUiUd5gOq6z6_Q56O3W4iOXz1GVxngRUFhBVkV2oFZnVQ/viewform?usp=preview",
+            "open_new_tab": true
+          }
+        },
+        "job_4pmnJc": {
+          "type": "job",
+          "settings": {
+            "job_title": "Digital Marketing Manager",
+            "job_address": "6-A Waris Road",
+            "job_city": "Lahore",
+            "apply_link": "https://docs.google.com/forms/d/e/1FAIpQLSc_l1nK6GFIzsvNHH2MAhqyGPPWgEirk2bUasAabwWRd9YpZw/viewform?usp=preview",
+            "open_new_tab": true
+          }
+        },
+        "job_twaEhA": {
+          "type": "job",
+          "settings": {
+            "job_title": "HR Executive",
+            "job_address": "6-A Waris Road",
+            "job_city": "Lahore",
+            "apply_link": "https://docs.google.com/forms/d/e/1FAIpQLScfu76AY4eMzAZ-jI2Yx-boQHbUPcKUm_DEOAayhnMMWoqe6w/viewform?usp=preview",
+            "open_new_tab": true
+          }
+        },
+        "job_LRDPhz": {
+          "type": "job",
+          "settings": {
+            "job_title": "Daraz Expert",
+            "job_address": "6-A Waris Road",
+            "job_city": "Lahore",
+            "apply_link": "https://docs.google.com/forms/d/e/1FAIpQLSfSjxbn33-lz6grUSdNrRi-nC4rb2zcPtvcjlwaUdZCYELM1Q/viewform?usp=header",
+            "open_new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "job_dr4Ger",
+        "job_wHenr9",
+        "job_4pmnJc",
+        "job_twaEhA",
+        "job_LRDPhz"
+      ],
+      "settings": {
+        "job_section_heading": "Apply for a Job"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "application_form_nfQUPj"
+  ]
+}
