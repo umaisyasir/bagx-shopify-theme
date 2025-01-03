@@ -608,6 +608,7 @@
     videoElement.play();
   }
 
+  // Open popup with product details and video
   function openPopup(videoElement) {
     const popup = document.getElementById("reelPopup");
     const popupVideo = document.getElementById("popupVideo");
@@ -627,7 +628,7 @@
     popupLogo.src = "{{ section.settings.logo_url }}";
 
     if (productDetail.hasProduct) {
-      // Show product details
+      // Show product details in the popup
       popupProductTitle.textContent = productDetail.title;
       popupProductPrice.textContent = productDetail.price;
       popupProductLink.setAttribute("href", `/products/${productDetail.id}`);
@@ -748,8 +749,17 @@
     popupVideo.play();
   }
 
+  // Add event listener to make each video clickable
   document.addEventListener("DOMContentLoaded", function () {
     initializeProductDetails();
+
+    // Add event listeners to video elements inside swiper slides
+    const videos = document.querySelectorAll(".swiper-slide video");
+    videos.forEach(video => {
+      video.addEventListener("click", function () {
+        openPopup(video);
+      });
+    });
 
     const swiper = new Swiper(".swiper-container", {
       slidesPerView: 2,
