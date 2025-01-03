@@ -696,6 +696,72 @@ if (productHandle) {
 }
 
 currentVideoIndex = Array.from(slide.parentElement.children).indexOf(slide);
+
+let currentProductHandle = null;
+
+function openPopup(videoElement, productHandle) {
+  currentProductHandle = productHandle;
+
+  // Find the corresponding product details using the product handle
+  const product = allProducts[currentProductHandle];  // Assuming you have an array of all products available in JS
+
+  if (product) {
+    // Update product info in the popup
+    document.querySelector('.popup-product-title').textContent = product.title;
+    document.querySelector('.popup-product-price').textContent = product.price;
+    document.querySelector('.popup-add-to-cart-form input[name="id"]').value = product.variants[0].id;
+
+    // Update the video source
+    const popupVideo = document.getElementById('popupVideo');
+    popupVideo.src = videoElement.src;
+
+    // Show the popup
+    document.getElementById('reelPopup').style.display = 'block';
+  } else {
+    // Handle case where product is not available
+    document.querySelector('.popup-product-title').textContent = "Product not available";
+    document.querySelector('.popup-product-price').textContent = "";
+  }
+}
+
+function closePopup() {
+  document.getElementById('reelPopup').style.display = 'none';
+}
+
+function prevVideo() {
+  // Logic to go to the previous video
+}
+
+function nextVideo() {
+  // Logic to go to the next video
+}
+
+function toggleMute() {
+  const popupVideo = document.getElementById('popupVideo');
+  popupVideo.muted = !popupVideo.muted;
+}
+
+function toggleFullscreen() {
+  const popupVideo = document.getElementById('popupVideo');
+  if (popupVideo.requestFullscreen) {
+    popupVideo.requestFullscreen();
+  } else if (popupVideo.mozRequestFullScreen) { // Firefox
+    popupVideo.mozRequestFullScreen();
+  } else if (popupVideo.webkitRequestFullscreen) { // Chrome and Safari
+    popupVideo.webkitRequestFullscreen();
+  } else if (popupVideo.msRequestFullscreen) { // IE/Edge
+    popupVideo.msRequestFullscreen();
+  }
+}
+
+function shareVideo() {
+  // Logic for sharing video
+}
+
+function togglePosition() {
+  // Logic for changing video position
+}
+
 </script>
 
 {% schema %}
