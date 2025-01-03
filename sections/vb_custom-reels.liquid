@@ -41,8 +41,10 @@
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
     <div class="popup-product-details">
-      <h3 id="popupProductTitle">Loading...</h3>
-      <p id="popupProductPrice"></p>
+      <div class="product_main-details">
+        <h3 id="popupProductTitle">Loading...</h3>
+        <p id="popupProductPrice"></p>
+      </div>
       <form id="popupAddToCartForm" class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" id="popupProductId">
         <button type="submit" class="popup-add-to-cart">Add to Cart</button>
