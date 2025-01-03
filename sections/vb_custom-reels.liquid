@@ -6,17 +6,17 @@
       {% for reel in section.blocks %}
         <div class="swiper-slide" style="flex-wrap: wrap;" data-product-handle="{{ reel.settings.product_handle }}">
           <div class="reel-wrapper">
-            <video src="{{ reel.settings.reel_url }}" muted autoplay loop id="frontVideo{{ forloop.index }}" onclick="openPopup(this)" onended="repeatVideo(this)" playsinline></video>
-            <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this)" playsinline></video>
+            <video src="{{ reel.settings.reel_url }}" muted autoplay loop id="frontVideo{{ forloop.index }}" onclick="openPopup(this, '{{ reel.settings.product_handle }}')" onended="repeatVideo(this)" playsinline></video>
+            <video src="{{ reel.settings.reel_url }}" id="mainVideo{{ forloop.index }}" class="main-video hidden" muted onclick="openPopup(this, '{{ reel.settings.product_handle }}')" playsinline></video>
           </div>
-        
+
           {% if reel.settings.product_handle %}
             {% assign product = all_products[reel.settings.product_handle] %}
             {% if product %}
               <div class="product-info">
                 <h3>{{ product.title }}</h3>
                 <p class="product-price">{{ product.price | money }}</p>
-        
+
                 <!-- Add to Cart Form -->
                 <form action="/cart/add" method="post" enctype="multipart/form-data">
                   <input type="hidden" name="id" value="{{ product.variants.first.id }}">
@@ -28,7 +28,7 @@
             {% endif %}
           {% endif %}
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
     <div class="swiper-button-next fas fa-chevron-right"></div>
     <div class="swiper-button-prev fas fa-chevron-left"></div>
@@ -40,19 +40,14 @@
     <span class="close-popup fas fa-times" onclick="closePopup()"></span>
     <img id="popupLogo" class="popup-logo" src="" alt="Logo" />
     <video id="popupVideo" autoplay muted loop></video>
-    {% assign product = all_products[reel.settings.product_handle] %}
-      <div class="popup-product-details">
-        {% if product %}
-          <h3 class="popup-product-title">{{ product.title }}</h3>
-          <p class="popup-product-price">{{ product.price | money }}</p>
-          <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-            <button type="submit" class="popup-add-to-cart">Add to Cart</button>
-          </form>
-        {% else %}
-          <h3 class="popup-product-title">Product not available</h3>
-        {% endif %}
-      </div>
+    <div class="popup-product-details">
+      <h3 class="popup-product-title">Loading...</h3>
+      <p class="popup-product-price">Please wait...</p>
+      <form class="popup-add-to-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="">
+        <button type="submit" class="popup-add-to-cart">Add to Cart</button>
+      </form>
+    </div>
     <div class="popup-navigation">
       <button class="popup-prev fas fa-chevron-left" onclick="prevVideo()"></button>
       <button class="popup-next fas fa-chevron-right" onclick="nextVideo()"></button>
