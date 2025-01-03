@@ -549,23 +549,21 @@
 
     const reelWrapper = videoElement.closest(".swiper-slide");
     const productHandle = reelWrapper.getAttribute("data-product-handle");
-    
+
     // Set video and logo
     popupVideo.src = videoElement.src;
     popupLogo.src = "{{ section.settings.logo_url }}";
     
     // Fetch product details
     if (productHandle) {
-      const product = {{ all_products | json }}[productHandle];
-      if (product) {
-        popupProductTitle.textContent = product.title;
-        popupProductPrice.textContent = product.price | money;
-        popupProductId.value = product.variants[0].id; // Set first variant's ID
-      } else {
-        popupProductTitle.textContent = "Product not available";
-        popupProductPrice.textContent = "";
-        popupProductId.value = "";
-      }
+      // Use Liquid to fetch product by handle
+      {% for product in all_products %}
+        if ("{{ product.handle }}" === productHandle) {
+          popupProductTitle.textContent = "{{ product.title }}";
+          popupProductPrice.textContent = "{{ product.price | money }}";
+          popupProductId.value = "{{ product.variants.first.id }}"; // Set first variant's ID
+        }
+      {% endfor %}
     } else {
       popupProductTitle.textContent = "Product not available";
       popupProductPrice.textContent = "";
